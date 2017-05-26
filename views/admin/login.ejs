@@ -1,0 +1,42 @@
+<% include header%>
+	<div class="uk-container uk-container-center uk-margin-large-top">
+		<div class="uk-container-center uk-width-1-3">
+			<form class="uk-form">
+				<div class="uk-form-row">
+					<img class="uk-thumbnail uk-thumbnail-mini uk-align-center uk-border-circle" src="http://www.getuikit.net/docs/images/placeholder_200x200.svg" alt="">
+				</div>
+				<div class="uk-form-row uk-form-icon uk-width-1-1">
+					<i class="uk-icon-calendar"></i>
+					<input type="text" placeholder="用户名" class="username uk-width-1-1 uk-form-large"/>
+				</div>
+				<div class="uk-form-row uk-form-icon uk-width-1-1">
+					<i class="uk-icon-calendar"></i>
+					<input type="password" placeholder="密码" class="password uk-width-1-1 uk-form-large"/>
+				</div>
+				<div class="uk-form-row">
+					<a href="javascript:void(0);" id="login" class="uk-button uk-button-primary uk-button-large uk-width-1-1">登录</a>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).on('click','#login',function(){
+			$.ajax({
+				url:'/admin/login',
+				type:'POST',
+				data:{
+					username:$('.username').val(),
+					password:$('.password').val()
+				},
+				success:function(res){
+					if(res.status == 1){
+						location.href ='/admin';
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			})	
+		})
+	</script>
+<% include footer%>
