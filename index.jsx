@@ -16,6 +16,8 @@ import Setting from './components/setting.jsx';
 import SliderList from './components/sliderList.jsx';
 import CustomerList from './components/customerList.jsx';
 import CustomerAdd from './components/customerAdd.jsx';
+import IssueList from './components/issueList.jsx';
+import IssueAdd from './components/issueAdd.jsx';
 
 class App extends PureComponent{
 	render(){
@@ -24,7 +26,7 @@ class App extends PureComponent{
 				<Route path="/">
 					<IndexRedirect to='/index'/>
 					<Route path="index" component={Index}>
-						<IndexRedirect to='/index/post'/>
+						<IndexRedirect to='/index/customer'/>
 						<Route path="post">
 							<IndexRedirect to="/index/post/list"/>
 							<Route path="list" component={PostList}/>
@@ -52,6 +54,12 @@ class App extends PureComponent{
 							<Route path="list" component={CustomerList}/>
 							<Route path="add" component={CustomerAdd}/>
 							<Route path=":id" component={CustomerAdd}/>
+						</Route>
+						<Route path="issue">
+							<IndexRedirect to="/index/issue/list"/>
+							<Route path="list" component={IssueList}/>
+							<Route path="add" component={IssueAdd}/>
+							<Route path=":id" component={IssueAdd}/>
 						</Route>
 						<Route path="setting" component={Setting}/>
 					</Route>

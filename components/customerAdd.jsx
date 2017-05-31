@@ -4,11 +4,14 @@ export default class CustomerAdd extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            required:['cradID','name'],
             cradID:'',
             name:'',
             payStatu:0,
             statu:1,
-            checkStatu:0
+            checkStatu:0,
+            address:'',
+            phone:''
         }
     }
 
@@ -38,6 +41,16 @@ export default class CustomerAdd extends React.Component {
                 this.setState({
                     name:value
                 })
+            },
+            _onAddress:(value)=>{
+                this.setState({
+                    address:value
+                })
+            },
+            _onPhone:(value)=>{
+                this.setState({
+                    phone:value
+                })
             }
         }
     }
@@ -51,7 +64,6 @@ export default class CustomerAdd extends React.Component {
                     checkStatu:res.datas.checkStatu,
                     payStatu:res.datas.payStatu,
                     statu:res.datas.statu
-
                 })
                 if(!!res.datas.cradID){
                     this.setState({
@@ -63,6 +75,16 @@ export default class CustomerAdd extends React.Component {
                         name:res.datas.name
                     })
                 }
+                if(!!res.datas.address){
+                    this.setState({
+                        address:res.datas.address
+                    })
+                }
+                if(!!res.datas.phone){
+                    this.setState({
+                        phone:res.datas.phone
+                    })
+                }
 
             }
         })
@@ -72,7 +94,7 @@ export default class CustomerAdd extends React.Component {
         let i=0;
         for(let keys in this.state){
             i++;
-            if(this.state[keys] === ''){
+            if(this.state[keys] === '' && this.state.required.indexOf(keys) != -1){
                 console.log(i);
                 alert(`${keys}不能为空!`);
                 return false;
@@ -86,7 +108,9 @@ export default class CustomerAdd extends React.Component {
                 name:this.state.name,
                 payStatu:this.state.payStatu,
                 statu:this.state.statu,
-                checkStatu:this.state.checkStatu
+                checkStatu:this.state.checkStatu,
+                address:this.state.address,
+                phone:this.state.phone
             }
         }).then((res)=>{
             if(res.status === 1){
@@ -107,7 +131,9 @@ export default class CustomerAdd extends React.Component {
                 payStatu:this.state.payStatu,
                 statu:this.state.statu,
                 checkStatu:this.state.checkStatu,
-                editDate:new Date()
+                editDate:new Date(),
+                address:this.state.address,
+                phone:this.state.phone
             }
         }).then((res)=>{
             if(res.status === 1){
@@ -153,14 +179,22 @@ class Form extends React.Component {
                     <input value={this.props.name} onChange={(e)=>this.props.action._onName(e.target.value)} type="text" className="uk-form-input uk-from-width-large"/>
                 </div>
                 <div className="uk-form-row">
-                    <label className="uk-form-label">支付状态 *</label>
+                    <label className="uk-form-label">地址信息</label>
+                    <input value={this.props.address} onChange={(e)=>this.props.action._onAddress(e.target.value)} type="text" className="uk-form-width-large"/>
+                </div>
+                <div className="uk-form-row">
+                    <label className="uk-form-label">联系方式</label>
+                    <input value={this.props.phone} onChange={(e)=>this.props.action._onPhone(e.target.value)} type="text" className="uk-form-input"/>
+                </div>
+                <div className="uk-form-row">
+                    <label className="uk-form-label">支付状态</label>
                     <input value="0" type="radio" onChange={this.props.action._onPayStatu.bind(this,0)} checked={this.props.payStatu === 0} id="payStatu-1" name="payStatu"/>
                     <label htmlFor="payStatu-1"> 未支付</label>
                     <input type="radio" onChange={this.props.action._onPayStatu.bind(this,1)} value="1" checked={this.props.payStatu === 1} id="payStatu-2" className="uk-margin-left" name="payStatu"/>
                     <label htmlFor="payStatu-2"> 已支付</label>
                 </div>
                 <div className="uk-form-row">
-                    <label className="uk-form-label">用户状态 *</label>
+                    <label className="uk-form-label">用户状态</label>
                     <input type="radio" value="1" onChange={this.props.action._onStatu.bind(this,1)} checked={this.props.statu === 1} id="statu-1" name="statu"/>
                     <label htmlFor="statu-1"> 正常</label>
                     <input type="radio" value="0" onChange={this.props.action._onStatu.bind(this,0)} id="statu-2" checked={this.props.statu === 0} className="uk-margin-left" name="statu"/>
@@ -169,7 +203,7 @@ class Form extends React.Component {
                     <label htmlFor="statu-3"> 异常</label>
                 </div>
                 <div className="uk-form-row">
-                    <label className="uk-form-label">检验状态 *</label>
+                    <label className="uk-form-label">检验状态</label>
                     <select value={this.props.checkStatu} onChange={(e)=>this.props.action._onCheckStatu(e.target.value)}>
                         <option value={0}>未开始</option>
                         <option value={1}>未送检</option>

@@ -8,6 +8,7 @@ const setting = require('./routes/admin/setting.js');
 const md5 = require('./modules/md5.js');
 const uploads = require('./routes/uploads.js');
 const customer = require('./routes/admin/customer.js');
+const issue = require('./routes/admin/issue.js');
 
 /* GET home page. */
 module.exports = function(app) {
@@ -28,15 +29,6 @@ module.exports = function(app) {
             res.locals.status = 0;
             next();
         })
-
-        // .post(/admin/,function(req,res,next){
-        // 	if(!req.session.username){
-        // 		res.locals.message = '用户未登录!';
-        // 		res.json(res.locals);
-        // 	}else{
-        // 		next();
-        // 	}
-        // })
         //登录
         .post('/admin/login', login.in)
         //注销
@@ -72,10 +64,16 @@ module.exports = function(app) {
         //网站设置
         .get('/admin/setting',setting.info)
         .put('/admin/setting',setting.update)
+        //--客户管理
         .get('/admin/customer',customer.list)
         .put('/admin/customer',customer.add)
         .get('/admin/customer/:id',customer.info)
         .post('/admin/customer/:id',customer.edit)
+        //--问题管理
+        .get('/admin/issue',issue.list)
+        .get('/admin/issue/:id',issue.info)
+        .put('/admin/issue',issue.add)
+        .post('/admin/issue/:id',issue.edit)
         //获取幻灯片列表
         // .get('/admin/slider',slider.group)
         //获取单幻灯片列表:id

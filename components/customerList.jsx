@@ -1,25 +1,39 @@
 import React from 'react';
 import {Ajax} from './functions/ajax.js';
 import {Link} from 'react-router';
+import Pagination from './pagination.jsx';
 export default class Customer extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            datas:[]
+            datas:[],
+            page:{
+                pageNo:1
+            }
         }
     }
 
     _loadDatas(){
         Ajax({
-            url:'/admin/customer',
+            url:`/admin/customer?page=${this.state.page.pageNo}`,
             method:'GET'
         }).then((res)=>{
             if(res.status === 1){
                 this.setState({
-                    datas : this.state.datas.concat(res.datas)
+                    datas : res.datas,
+                    page : res.page
                 })
             }
         })
+    }
+    _pageChange(num){
+        let _p = this.state.page;
+        _p.pageNo = num;
+        this.setState({
+			page:_p
+		},()=>{
+			this._loadDatas();
+		});
     }
     componentDidMount(){
         this._loadDatas();
@@ -31,6 +45,7 @@ export default class Customer extends React.Component{
                     <Link className="uk-button" to={`/index/customer/add`}>录入用户</Link>
                 </div>
                 <List datas = {this.state.datas}/>
+                {this.state.page.pageNo <=this.state.page.totalPage ? <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.page.totalPage} page={this.state.page.pageNo}/> : null}
             </div>
         )
     }

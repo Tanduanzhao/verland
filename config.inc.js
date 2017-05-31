@@ -11,5 +11,9 @@ module.exports = {
   		store:new MongoStore({
   			url:'mongodb://localhost:3010/verland'
   		})
+	},
+	page:{
+		size:20,
+		pageNo:1
 	}
 }

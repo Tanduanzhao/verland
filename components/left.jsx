@@ -7,16 +7,26 @@ export default class Left extends PureComponent{
 
 	  this.state = {
 	  	index:0,
-	  	menus:[{
-	  		name:"文章管理",
-	  		iconName:"file-text-o",
-	  		path:"/index/post"
-	  	},
-  		{
-	  		name:"栏目管理",
-	  		iconName:"book",
-	  		path:"/index/category"
-	  	},
+	  	menus:[
+		// 	{
+	 //  		name:"文章管理",
+	 //  		iconName:"file-text-o",
+	 //  		path:"/index/post"
+		//  	},
+  // 		{
+	 //  		name:"栏目管理",
+	 //  		iconName:"book",
+	 //  		path:"/index/category"
+		//  	},
+		{
+			name:"客户管理",
+			iconName:"credit-card",
+			path:'/index/customer'
+		},{
+			name:"问答管理",
+			iconName:"question",
+			path:"/index/issue"
+		},
 	  	{
 	  		name:"用户管理",
 	  		iconName:"user",
@@ -25,15 +35,13 @@ export default class Left extends PureComponent{
 	  		name:"网站设置",
 	  		iconName:'cog',
 	  		path:"/index/setting"
-	  	},{
-	  		name:"幻灯片",
-	  		iconName:'image',
-	  		path:'/index/slider'
-	  	},{
-			name:"客户管理",
-			iconName:"credit-card",
-			path:'/index/customer'
-		}]
+	  	}
+		// {
+	 //  		name:"幻灯片",
+	 //  		iconName:'image',
+	 //  		path:'/index/slider'
+		//  	},
+		]
 	  }
 	}
 

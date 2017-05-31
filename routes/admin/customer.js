@@ -1,5 +1,6 @@
 const customer = require('../../model/customer.js');
 const common = require('../../modules/common.js');
+let {page} = require('../../config.inc.js');
 function countCustomer(conditions = {}){
     return customer
             .count()
@@ -7,19 +8,18 @@ function countCustomer(conditions = {}){
             .exec((err,count)=>{
                 if(err){
                     throw new Error('统计客户列表数据出错!');
-                }else{
-                    return count;
                 }
             })
 }
 
-function findCustomer(conditions = {},page=1,size=20){
+function findCustomer(conditions = {}){
     return customer
             .find()
-            .select('cradID name payStatu statu checkStatu date')
+            .select('cradID name payStatu statu checkStatu date address phone')
             .where(conditions)
-            .skip((page-1)*size)
-            .limit(size)
+            .sort({date:-1})
+            .skip((page.pageNo-1)*page.size)
+            .limit(page.size)
             .exec((err,result)=>{
                 if(err){
                     console.log(err);
@@ -33,7 +33,7 @@ function findCustomer(conditions = {},page=1,size=20){
 function findOneCustomer(id){
     return customer
             .findById(id)
-            .select('cradID name payStatu statu checkStatu')
+            .select('cradID name payStatu statu checkStatu address phone')
             .exec((err,result)=>{
                 if(err){
                     throw new Error(`查询${id}的客户出错!`);
@@ -59,12 +59,22 @@ function editCustomer(id,obj){
 
 module.exports = {
     list:(req,res,next)=>{
+        page.pageNo = (function(){
+                if(req.query.page && req.query.page !== 0){
+                    return Number(req.query.page);
+                }else{
+                    return page.pageNo;
+                }
+        })();
         countCustomer().then((count)=>{
-                res.locals.page = {};
+            page.count = count;
+
+            page.totalPage = Math.ceil(count/page.size);
+            console.log(page.totalPage);
             findCustomer().then((result)=>{
-                res.locals.page.total = count;
                 res.locals.status = 1;
                 res.locals.datas = common.dateFormat(result);
+                res.locals.page = page;
                 next();
             }).catch((err)=>{
                 console.log(err);
@@ -82,11 +92,14 @@ module.exports = {
             name:req.body.name,
             payStatu:req.body.payStatu,
             statu:req.body.statu,
-            checkStatu:req.body.statu
+            checkStatu:req.body.statu,
+            address:req.body.address,
+            phone:req.body.phone
         };
         new customer(user)
             .save((err,result)=>{
                 if(err){
+                    console.log(err);
                     throw new Error('添加用户出错!');
                 }else{
                     res.locals.status = 1;
@@ -115,7 +128,9 @@ module.exports = {
             checkStatu:req.body.checkStatu,
             statu:req.body.statu,
             editDate:req.body.editDate,
-            name:req.body.name
+            name:req.body.name,
+            address:req.body.address,
+            phone:req.body.phone
         };
         editCustomer(req.params.id,obj)
             .then(()=>{

@@ -28,6 +28,8 @@ let Schema = new mongoose.Schema({
         type:Number,
         default:0//0->未开始；1->未送检；2->送检中；3->样本检验中;4->报告已送出；
     },
-    report:String
+    report:String,
+    address:String,
+    phone:String
 })
 module.exports = mongoose.model('cutomer',Schema);

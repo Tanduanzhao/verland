@@ -1,0 +1,12 @@
+/*
+    required为必填
+    methed方式为PUT(新增)    POST(修改)    GET(请求)
+    params为参数对象
+*/
+1.添加用户
+    url:http://192.168.1.194:3001/admin/customer
+    method:PUT,
+    params:{
+        cradID:required,
+        name:required
+    }
