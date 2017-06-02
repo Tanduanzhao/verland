@@ -10,3 +10,6 @@
         cradID:required,
         name:required
     }
+2.微信初始化
+    url:http://192.168.1.194:3001/initWx?url=value
+    method:GET
