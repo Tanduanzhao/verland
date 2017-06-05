@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
-const mongoUrl = 'mongodb://localhost:3010/verland';
+const mongoUrl = 'mongodb://192.168.1.28:3010/verland';
 
 mongoose.connect(mongoUrl);
 mongoose.connection.on('open',function(){

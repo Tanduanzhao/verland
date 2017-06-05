@@ -53,7 +53,7 @@ function getSignature(url){
             .then(()=>{
                 wx.url = url;
                 let keys = ['jsapi_ticket','noncestr','timestamp','url'].sort();
-                wx.signature = shaString;
+                wx.signature = common.shaString(keys,wx);
                 resolve();
             })
             .catch((err)=>{

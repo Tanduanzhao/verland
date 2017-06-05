@@ -9,7 +9,7 @@ module.exports = {
   		cookie: {expires: 60*1000*60,secure: false},
   		expires:60*1000*60,
   		store:new MongoStore({
-  			url:'mongodb://localhost:3010/verland'
+  			url:'mongodb://192.168.1.28:3010/verland'
   		})
 	},
 	url:'http://www.verland.cn',
