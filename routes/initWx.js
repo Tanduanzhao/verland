@@ -1,6 +1,6 @@
 const request = require('request');
 const {wx} = require('../config.inc.js');
-const crypto = require('crypto');
+const common = require('../modules/common.js');
 
 function getAccessToken(){
     return new Promise((resolve,reject)=>{
@@ -29,15 +29,6 @@ function getApiTicket(){
     })
 }
 
-function getRandomString(){
-    let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let key = [];
-    for(let i=0;i<20;i++){
-        key.push(str[(Math.floor(Math.random()*str.length))])
-    }
-    return key.join('');
-}
-
 function getUrlString(){
     return new Promise((resolve,reject)=>{
         getAccessToken()
@@ -46,7 +37,7 @@ function getUrlString(){
                 getApiTicket()
                     .then((ticket)=>{
                         wx.jsapi_ticket = ticket;
-                        wx.noncestr = getRandomString();
+                        wx.noncestr = common.getRandomString();
                         wx.timestamp = +new Date();
                         resolve();
                     })
@@ -62,14 +53,7 @@ function getSignature(url){
             .then(()=>{
                 wx.url = url;
                 let keys = ['jsapi_ticket','noncestr','timestamp','url'].sort();
-                let sha1 = crypto.createHash('sha1');
-                wx.urlString=[];
-                keys.forEach((item)=>{
-                    wx.urlString.push(`${item}=${wx[item]}`);
-                })
-                wx.urlString = wx.urlString.join('&');
-                sha1.update(wx.urlString);
-                wx.signature = sha1.digest('hex');
+                wx.signature = shaString;
                 resolve();
             })
             .catch((err)=>{

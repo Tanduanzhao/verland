@@ -10,7 +10,9 @@ const uploads = require('./routes/uploads.js');
 const customer = require('./routes/admin/customer.js');
 const issue = require('./routes/admin/issue.js');
 const path = require('path');
+const index = require('./routes/index.js');
 const initWx = require('./routes/initWx.js');
+const pay = require('./routes/pay.js');
 
 
 
@@ -24,9 +26,7 @@ module.exports = function(app) {
             res.locals.title = '全局挂载的标题';
             next();
         })
-        .get('/', function(req, res, next) {
-            res.render('index');
-        })
+        .get('/', index)
 
         //生成密码
         .get('/getMd5', md5)
@@ -37,6 +37,7 @@ module.exports = function(app) {
             next();
         })
         .get('/initWx',initWx)
+        .get('/pay',pay)
         //登录
         .post('/admin/login', login.in)
         //注销

@@ -13,3 +13,18 @@
 2.微信初始化
     url:http://192.168.1.194:3001/initWx?url=value
     method:GET
+3.微信支付接口  支付人名币￥1880
+    url:http://192.168.1.194:3001/pay
+    method:GET
+    params:{
+        code:require
+    }
+    注：如果code不存在，后端会自动redirect到微信获取code首页,所以code是自动传递，如果首页没有获取code的情况是无法存储的
+    流程:
+        首页-->存在code-->根据code查询数据库用户信息-->存储根据code获取的数据库openId
+                |
+                |
+            不存在code->自动重定向到首页换取微信code-->根据code换取微信openId-->根据openId查询数据库用户信息-->存在用户信息读取用户信息并更新code
+                                                                                    |
+                                                                                    |
+                                                                               不存在用户信息-->更具openId拉取微信用户信息-->存储用户信息
