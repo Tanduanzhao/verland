@@ -1,12 +1,10 @@
 const mongoose = require('../config.db.js');
 let Schema = new mongoose.Schema({
     cradID:{
-        type: String,
-        required: true
+        type: String
     },
     name:{
-        type: String,
-        required: true
+        type: String
     },
     date:{
         type: Date,
@@ -30,6 +28,10 @@ let Schema = new mongoose.Schema({
     },
     report:String,
     address:String,
-    phone:String
+    phone:String,
+    openId:String,
+    wxUsername:String,
+    wxImgUrl:String,
+    wxCode:String
 })
 module.exports = mongoose.model('cutomer',Schema);

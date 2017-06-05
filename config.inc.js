@@ -12,12 +12,14 @@ module.exports = {
   			url:'mongodb://localhost:3010/verland'
   		})
 	},
+	url:'http://www.verland.cn',
 	page:{
 		size:20,
 		pageNo:1
 	},
 	wx:{
 		appId:'wx9753ba7c20ea36b2',
-		AppSecret:'b4106dd7d0a8d1b02c80be7321d5f7f3'
+		AppSecret:'b4106dd7d0a8d1b02c80be7321d5f7f3',
+		mchId:'1472079802'
 	}
 }
