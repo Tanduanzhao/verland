@@ -65,11 +65,11 @@ function getSignature(url){
 
 
 module.exports = (req,res,next)=>{
-    if(!req.params.url){
+    if(!req.query.url){
         res.locals.message = 'url参数不能为空';
         next();
     }
-    getSignature(req.params.url)
+    getSignature(req.query.url)
         .then(()=>{
             let datas = {
                 appId:wx.appId,
@@ -80,6 +80,9 @@ module.exports = (req,res,next)=>{
             res.locals.status = 1;
             res.locals.datas = datas;
             next();
-        })
+        }).catch((err)=>{
+            console.log(err);
+            next();
+    })
 
 }
