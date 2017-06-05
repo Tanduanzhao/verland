@@ -1,0 +1,15 @@
+<% include ./common/header%>
+<div class="container bgc-eee">
+   <div class="list">
+       <a class="item icon-ask">
+           <%=issueDatas[0].title%>
+       </a>
+       <%if(typeof issueDatas[0].content != 'undefined' && issueDatas[0].content != ""){%>
+           <a class="item icon-answer">
+               <%-issueDatas[0].content%>
+           </a>
+        <% }%>
+   </div>
+</div>
+</body>
+</html>

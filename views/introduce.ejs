@@ -1,0 +1,69 @@
+<% include ./common/header%>
+<div class="swiper-container container">
+   <div class="swiper-wrapper">
+       <div  class="swiper-slide">
+           <div class="imgBox logoImgBox">
+               <img src="/images/logoTitle.png" class="logoTitleImg">
+           </div>
+           <img src="/images/bg_introduce.jpg" class="introduce-bg">
+           <div class="introduce">
+               <div class="info">
+                   云量科技成立于2017年，是广州市一家专业的先进的医疗科技推广服务公司。公司致力于为各级医疗机构及大众，提供国内领先的医疗检测、信息化建设推广等专业服务。
+               </div>
+           </div>
+           <img src="/images/icon-down.png" class="icon-down">
+       </div>
+       <div  class="swiper-slide tac">
+           <img src="/images/price.png" class="titleImg">
+           <img src="/images/price-info.png" class="priceInfo">
+           <img src="/images/business.png" class="titleImg business">
+           <div class="businessInfo">
+               <h3 class="businessInfo-title"> 医疗检测、信息化建设推广等服务。</h3>
+               <img src="/images/business-img.png" class="businessInfo-img">
+           </div>
+           <img src="/images/icon-down-blue.png" class="icon-down">
+       </div>
+       <div  class="swiper-slide tac">
+           <img src="/images/strengths.png" class="titleImg strengths">
+           <img src="/images/strengths-img.png" class="strengthsImg">
+           <img src="/images/icon-down-blue.png" class="icon-down">
+       </div>
+       <div  class="swiper-slide">
+           <img src="/images/company.png" class="titleImg company">
+           <ul class="companyImgs">
+               <li>
+                   <div class="itemImg">
+                       <img src="/images/company-logo.png">
+                   </div>
+                   公司logo
+               </li>
+               <li>
+                   <div  class="itemImg">
+                       <img src="/images/rest.png">
+                   </div>
+
+                   休息区
+               </li>
+               <li>
+                   <div  class="itemImg">
+                       <img src="/images/work.png" >
+                   </div>
+                   工作区
+               </li>
+               <li>
+                   <div class="itemImg">
+                       <img src="/images/conference.png">
+                   </div>
+                   会议室
+               </li>
+           </ul>
+       </div>
+   </div>
+</div>
+<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        direction: 'vertical'
+    })
+</script>
+<% include  ./common/footer%>
