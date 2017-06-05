@@ -14,7 +14,7 @@ const index = require('./routes/index.js');
 const initWx = require('./routes/initWx.js');
 const pay = require('./routes/pay.js');
 
-
+const issueDatas = require('./model/issue.js');
 
 /* GET home page. */
 module.exports = function(app) {
@@ -27,7 +27,31 @@ module.exports = function(app) {
             next();
         })
         .get('/', index)
-
+        .get('/query', function(req, res, next) {
+            res.render('query',{title:"进度查询"});
+         })
+          .get('/noQuery', function(req, res, next) {
+              res.render('noQuery',{title:"进度查询"});
+          })
+          .get(['/problem','/problem/:page'], function(req, res, next) {
+                  issueDatas.find().limit(20).sort({editDate:-1}).then(function(issueDatas){
+                      res.render('problem',{issueDatas:issueDatas,title:"常见问题"});
+                  });
+          })
+          .get(['problemContent','/problemContent/:type'], function(req, res, next) {
+              issueDatas.find().where({_id:req.params.type}).then(function(issueDatas){
+                  res.render('problemContent',{issueDatas:issueDatas,title:"常见问题"});
+              })
+          })
+          .get('/verland', function(req, res, next) {
+              res.render('verland',{title:"云量检测介绍"});
+          })
+          .get('/introduce', function(req, res, next) {
+              res.render('introduce',{title:"公司介绍"});
+          })
+          .get('/process', function(req, res, next) {
+              res.render('process',{title:"检测流程"});
+          })
         //生成密码
         .get('/getMd5', md5)
 

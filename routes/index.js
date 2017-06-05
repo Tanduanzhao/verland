@@ -59,9 +59,9 @@ function getOpenIdFromCode(code){
     })
 }
 
-function getUserInfoFormWx(accessToken,opendId){
+function getUserInfoFormWx(accessToken,openId){
     return new Promise((resolve,reject)=>{
-        request(`https://api.weixin.qq.com/sns/userinfo?access_token=${accessToken}&openid=${opendId}&lang=zh_CN`,(err,response,body)=>{
+        request(`https://api.weixin.qq.com/sns/userinfo?access_token=${accessToken}&openid=${openId}&lang=zh_CN`,(err,response,body)=>{
             if(!err){
                 body = JSON.parse(body);
                 resolve(body);
@@ -91,7 +91,7 @@ function getUserInfoFromDb(openId){
             .where({openId:openId})
             .exec((err,result)=>{
                 if(err){
-                    throw new Error('根据openId读取用户信息失败:',opendId);
+                    throw new Error('根据openId读取用户信息失败:',openId);
                 }else{
                     return result;
                 }
@@ -115,10 +115,13 @@ function getUserInfoFromOpenId(openId){
     return customer
             .findOne()
             .where({openId:openId})
+            .select('_id wxUsername openId wxImgUrl wxCode checkStatu statu payStatu')
             .exec((err,result)=>{
                 if(err){
                     throw new Error('根据openId查询数据库里面用户信息失败');
                 }else{
+                    console.log(openId,'openId');
+                    console.log(result,'resultaaaa');
                     return result;
                 }
             })
@@ -145,7 +148,7 @@ router.get('/', function(req, res, next) {
         getUserInfo(req.query.code)
             .then((userInfo)=>{
                 req.session.openId = userInfo.openId;
-                res.render('index',{title:'Express'})
+                res.render('index',{title:' '})
             })
     }
 
