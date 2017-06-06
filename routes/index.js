@@ -29,9 +29,10 @@ function getUserInfo(code){
                                                                 })
                                                         })
                                             }else{
-                                                updateCodeByOpenId(code,result.openid)
+                                                return updateCodeByOpenId(code,result.openid)
                                                     .then((uUserInfo)=>{
-                                                        return uUserInfo;
+                                                        oUserInfo.wxCode = code;
+                                                        return oUserInfo;
                                                     })
                                             }
                                         })
@@ -131,9 +132,9 @@ function updateCodeByOpenId(code,openId){
     return new Promise((resolve,reject)=>{
         customer.update({openId:openId},{$set:{wxCode:code}},(err,result)=>{
             if(err){
-                throw new Error('根据openId更新code错误!');
+                reject('根据openId更新code错误!');
             }else{
-                return result;
+                return resolve(result);
             }
         })
     })
@@ -147,6 +148,7 @@ router.get('/', function(req, res, next) {
     }else{
         getUserInfo(req.query.code)
             .then((userInfo)=>{
+                console.log('获取到的最后的用户信息',userInfo);
                 req.session.openId = userInfo.openId;
                 res.render('index',{title:' '})
             })
