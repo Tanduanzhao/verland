@@ -14,7 +14,7 @@ function getPayOrder(req){
         out_trade_no:common.getTrade(),
         total_fee:1880,
         spbill_create_ip:common.getClientIp(req),
-        notify_url:'/pay',
+        notify_url:'/',
         trade_type:'JSAPI',
         openid:req.session.openId
     }
@@ -29,7 +29,6 @@ function getPayOrder(req){
         formDate += `<${key}>${payObj[key]}</${key}>`;
     }
     formDate += '</xml>';
-    console.log(formDate);
     return new Promise((resolve,reject)=>{
         request({
             url:url,
@@ -41,15 +40,16 @@ function getPayOrder(req){
             }else{
                 console.log(body);
                 xml2js.parseString(body,{explicitArray : false},(err,json)=>{
-                    payObj.prepay_id = json.xml.prepay_id;
+                    payObj.prepay_id = 'prepay_id='+json.xml.prepay_id;
                 });
                 let newSignObj = {
                     appId:payObj.appid,
-                    timeStamp:+new Date(),
+                    timeStamp:common.getTimeStamp(),
                     nonceStr:payObj.nonce_str,
-                    package:payObj.prepay_id
+                    package:payObj.prepay_id,
+                    signType:'MD5'
                 }
-                payObj.paySign = common.md5String(Object.keys(newSignObj),newSignObj);
+                payObj.paySign = common.md5String(Object.keys(newSignObj).sort(),newSignObj);
                 resolve({
                     prepay_id:payObj.prepay_id,
                     timestamp:newSignObj.timeStamp,
