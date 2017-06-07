@@ -28,3 +28,11 @@
                                                                                     |
                                                                                     |
                                                                                不存在用户信息-->更具openId拉取微信用户信息-->存储用户信息
+4.微信支付结果
+    url:http://192.168.1.194:3001/wxPayResult
+    method:POST,
+    params:{
+        payResult:require, 0-支付失败 1-支付成功   默认为0
+        cradID:require,
+        name:
+    }

@@ -8,6 +8,7 @@ function getAccessToken(){
 
             if(!err){
                 body = JSON.parse(body);
+                console.log(body,'access_token');
                 resolve(body.access_token);
             }else{
                 reject(err);
@@ -20,6 +21,7 @@ function getApiTicket(){
     return new Promise((resolve,reject)=>{
         request(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${wx.access_token}&type=jsapi`,(err,response,body)=>{
             body = JSON.parse(body);
+            console.log(body,'ticket');
             if(!err){
                 resolve(body.ticket);
             }else{
@@ -38,7 +40,7 @@ function getUrlString(){
                     .then((ticket)=>{
                         wx.jsapi_ticket = ticket;
                         wx.noncestr = common.getRandomString();
-                        wx.timestamp = +new Date();
+                        wx.timestamp = common.getTimeStamp();
                         resolve();
                     })
             })
@@ -54,6 +56,7 @@ function getSignature(url){
                 wx.url = url;
                 let keys = ['jsapi_ticket','noncestr','timestamp','url'].sort();
                 wx.signature = common.shaString(keys,wx);
+                console.log(wx.signature,'signature');
                 resolve();
             })
             .catch((err)=>{

@@ -16,6 +16,9 @@ module.exports = {
         })
         return _n;
     },
+    getTimeStamp(){
+        return parseInt(new Date().getTime()/1000)
+    },
     getRandomString(){
         let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let key = [];
@@ -25,6 +28,7 @@ module.exports = {
         return key.join('');
     },
     shaString(keysArr,obj){
+        console.log(obj,'sign obj');
         let sha1 = crypto.createHash('sha1');
         urlString=[];
         keysArr.forEach((item)=>{

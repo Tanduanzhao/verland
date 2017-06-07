@@ -142,9 +142,9 @@ function updateCodeByOpenId(code,openId){
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+module.exports = function(req, res, next) {
     if(!req.query.code){
-        res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);
+        res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url+req.originalUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);
     }else{
         getUserInfo(req.query.code)
             .then((userInfo)=>{
@@ -154,6 +154,4 @@ router.get('/', function(req, res, next) {
             })
     }
 
-});
-
-module.exports = router;
+};

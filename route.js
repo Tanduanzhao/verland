@@ -10,9 +10,10 @@ const uploads = require('./routes/uploads.js');
 const customer = require('./routes/admin/customer.js');
 const issue = require('./routes/admin/issue.js');
 const path = require('path');
-const index = require('./routes/index.js');
+const form = require('./routes/form.js');
 const initWx = require('./routes/initWx.js');
 const pay = require('./routes/pay.js');
+const wxPayResult = require('./routes/wxPayResult.js');
 
 const issueDatas = require('./model/issue.js');
 
@@ -26,7 +27,10 @@ module.exports = function(app) {
             res.locals.title = '全局挂载的标题';
             next();
         })
-        .get('/', index)
+        .get('/',function(req,res,next){
+            res.redirect('/verland')
+        })
+        .get('/form', form)
         .get('/query', function(req, res, next) {
             res.render('query',{title:"进度查询"});
          })
@@ -62,6 +66,7 @@ module.exports = function(app) {
         })
         .get('/initWx',initWx)
         .get('/pay',pay)
+        .post('/wxPayResult',wxPayResult)
         //登录
         .post('/admin/login', login.in)
         //注销
