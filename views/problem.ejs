@@ -1,50 +1,40 @@
 <% include ./common/header%>
 <div class="container">
-   <div class="list bgc-eee">
-       <% issueDatas.forEach(function(item){ %>
-           <a class="item icon-ask icon-right" href="/problemContent/<%= item._id%>">
-               <%= item.title%>
-           </a>
-       <% }) %>
-       <!--<a class="item icon-ask icon-right" href="/problemContent">-->
-           <!--我做过产检和孕检了，结果都健康。我的孩子还有必要做新生儿遗传代谢疾病筛查吗？-->
-       <!--</a>-->
-       <!--<a class="item icon-ask icon-right" href="/problemContent">-->
-           <!--我想做佰辰的新生儿遗传代谢疾病筛查，哪里能联系？-->
-       <!--</a>-->
-       <!--<a class="item icon-ask icon-right" href="/problemContent">-->
-           <!--我做了检测，多久能拿到报告？这份报告准确吗？医院能认同吗？-->
-       <!--</a>-->
-       <!--<a class="item icon-ask icon-right" href="/problemContent">-->
-           <!--如果我的孩子检测出有疾病，我该如何去治疗？-->
-       <!--</a>-->
-   </div>
+   <div class="list bgc-eee"></div>
 </div>
 <script>
-    var i=1;
+    var i= 1,totalPage= 1,isLoadData=true;
+      function getDatas(){
+          fetch("/admin/issue?page="+i,{
+              method:"GET",
+              body: JSON.stringify(),
+              headers:{
+                  'Accept':'application/json',
+                  'Content-Type':'application/json'
+              }
+          }).then((res)=>{
+              return res.json()
+          }).then(function(res){
+              if(res.status == 1 && res.datas.length != 0){
+                  var item="";
+                  isLoadData=false;
+                  totalPage=res.page.totalPage;
+                  $(res.datas).each(function(index,ele){
+                      item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
+                  });
+                  $('.list').append(item);
+              }else{
+                  console.log("没数据")
+              }
+          })
+      }
+    getDatas()
     $(window).scroll(function(){
-       if($(".list")[0].scrollHeight-$(this).height()-$(this).scrollTop()<=0 &&  $(".list .item").length){
+       if($(".list")[0].scrollHeight-$(this).height()-$(this).scrollTop()<=0 && totalPage > i){
+           if(isLoadData) return false;
+           isLoadData=true
            i+=1;
-           fetch("/admin/issue?page="+i,{
-               method:"GET",
-               body: JSON.stringify(),
-               headers:{
-                   'Accept':'application/json',
-                   'Content-Type':'application/json'
-               }
-           }).then((res)=>{
-               return res.json()
-             }).then(function(res){
-               if(res.status == 1 && res.datas.length != 0){
-                   var item="";
-                   $(res.datas).each(function(index,ele){
-                       item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
-                   });
-                   $('.list').append(item);
-               }else{
-                   console.log("没数据")
-               }
-           })
+           getDatas();
        }
     })
 

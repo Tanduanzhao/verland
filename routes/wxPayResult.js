@@ -27,7 +27,7 @@ module.exports = (req,res,next)=>{
         next();
         return;
     }
-    if(!req.session.opendId){
+    if(!req.session.openId){
         res.locals.message = '用户信息过期，请重新拉起!';
         next();
         return;

@@ -54,6 +54,6 @@ module.exports = {
         return Math.random().toString(32).slice(2,15);
     },
     getClientIp(req){
-        return req.ip.slice(req.ip.lastIndexOf(':')+1)
+        return req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1)
     }
 }

@@ -38,6 +38,7 @@ function getUrlString(){
                 wx.access_token = token;
                 getApiTicket()
                     .then((ticket)=>{
+                        console.log(ticket)
                         wx.jsapi_ticket = ticket;
                         wx.noncestr = common.getRandomString();
                         wx.timestamp = common.getTimeStamp();
