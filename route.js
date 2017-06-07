@@ -12,7 +12,7 @@ const issue = require('./routes/admin/issue.js');
 const path = require('path');
 const form = require('./routes/form.js');
 const initWx = require('./routes/initWx.js');
-const pay = require('./routes/pay.js');
+const wxPay = require('./routes/wxPay.js');
 const wxPayResult = require('./routes/wxPayResult.js');
 
 const issueDatas = require('./model/issue.js');
@@ -65,7 +65,7 @@ module.exports = function(app) {
             next();
         })
         .get('/initWx',initWx)
-        .get('/pay',pay)
+        .get('/wxPay',wxPay)
         .post('/wxPayResult',wxPayResult)
         //登录
         .post('/admin/login', login.in)

@@ -143,15 +143,21 @@ function updateCodeByOpenId(code,openId){
 
 /* GET home page. */
 module.exports = function(req, res, next) {
-    if(!req.query.code){
-        res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url+req.originalUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);
+
+    if(req.query.platForm === 'wechat'){
+        if(!req.query.code){
+            res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url+req.originalUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);
+        }else{
+            getUserInfo(req.query.code)
+                .then((userInfo)=>{
+                    console.log('获取到的最后的用户信息',userInfo);
+                    req.session.openId = userInfo.openId;
+                    res.render('form',{title:' '})
+                    return false;
+                })
+        }
     }else{
-        getUserInfo(req.query.code)
-            .then((userInfo)=>{
-                console.log('获取到的最后的用户信息',userInfo);
-                req.session.openId = userInfo.openId;
-                res.render('index',{title:' '})
-            })
+        res.render('form',{title:' '})
     }
 
 };
