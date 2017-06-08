@@ -18,3 +18,17 @@ export function browserRedirect(){
         document.getElementsByTagName('html')[0].style.fontSize = 20 + 'px';
     }
 }
+
+export const url2obj = function(s){
+    var str = location.search.slice(1);
+    str = str.split('&');
+    var obj = {};
+    str.forEach(function(ele) {
+        var _index = ele.indexOf('=');
+        obj[ele.slice(0, _index)] = decode(ele.slice(_index + 1));
+    });
+    return obj;
+}
+export function decode(str) {
+    return decodeURI(decodeURI(str));
+}

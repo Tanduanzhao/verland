@@ -12,7 +12,7 @@ function getPayOrder(req){
         nonce_str:common.getRandomString(),
         body:'云量检测-服务',
         out_trade_no:common.getTrade(),
-        total_fee:1880,
+        total_fee:1,
         spbill_create_ip:common.getClientIp(req),
         notify_url:'/',
         trade_type:'JSAPI',
@@ -29,6 +29,7 @@ function getPayOrder(req){
         formDate += `<${key}>${payObj[key]}</${key}>`;
     }
     formDate += '</xml>';
+    console.log(formDate);
     return new Promise((resolve,reject)=>{
         request({
             url:url,
@@ -55,7 +56,7 @@ function getPayOrder(req){
                     timestamp:newSignObj.timeStamp,
                     nonceStr:payObj.nonce_str,
                     paySign:payObj.paySign,
-                    signType:'MD5'
+                    signType:newSignObj.signType
                 });
             }
         })

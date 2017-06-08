@@ -143,7 +143,6 @@ function updateCodeByOpenId(code,openId){
 
 /* GET home page. */
 module.exports = function(req, res, next) {
-
     if(req.query.platForm === 'wechat'){
         if(!req.query.code){
             res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url+req.originalUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);

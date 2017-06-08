@@ -37,10 +37,8 @@ module.exports = function(app) {
           .get('/noQuery', function(req, res, next) {
               res.render('noQuery',{title:"进度查询"});
           })
-          .get(['/problem','/problem/:page'], function(req, res, next) {
-                  issueDatas.find().limit(20).sort({editDate:-1}).then(function(issueDatas){
-                      res.render('problem',{issueDatas:issueDatas,title:"常见问题"});
-                  });
+          .get('/problem', function(req, res, next) {
+              res.render('problem',{title:"常见问题"});
           })
           .get(['problemContent','/problemContent/:type'], function(req, res, next) {
               issueDatas.find().where({_id:req.params.type}).then(function(issueDatas){
