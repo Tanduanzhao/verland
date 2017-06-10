@@ -31,6 +31,9 @@ module.exports = function(app) {
             res.redirect('/verland')
         })
         .get('/form', form)
+        .get('/paySuccess', function(req, res, next) {
+          res.render('paySuccess',{title:""});
+        })
         .get('/query', function(req, res, next) {
             res.render('query',{title:"进度查询"});
          })

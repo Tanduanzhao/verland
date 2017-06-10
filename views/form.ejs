@@ -6,7 +6,7 @@
         <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
     </div>
     <input class="input name" type="text" placeholder="请输入您的姓名">
-    <button class="button" type="button" onClick="isWeixinOrAlipay()">确认支付</button>
+    <button class="button pay" type="button" onClick="isWeixinOrAlipay()">确认支付</button>
 </div>
 <script>
     var ua = navigator.userAgent.toLowerCase();
@@ -17,25 +17,19 @@
     }else{
         $("title").text('云量支付');
     }
-    function url2obj(){
-        var str = location.search.slice(1);
-        str = str.split('&');
-        var obj = {};
-        str.forEach(function(ele) {
-            var _index = ele.indexOf('=');
-            obj[ele.slice(0, _index)] = decode(ele.slice(_index + 1));
-        });
-        return obj;
-    }
-    function decode(str) {
-        return decodeURI(decodeURI(str));
-    }
-    function isWx(){
-        var ua = navigator.userAgent.toLowerCase();
-        if(ua.match(/MicroMessenger/i)=="micromessenger" && url2obj().platForm == undefined) {
-            window.location.href= "/form?platForm=wechat";
+    function opacity(){
+        if($('.cradID').val() !=""){
+            $(".pay").css({
+                opacity: 1
+            })
+        }else{
+            $(".pay").css({
+                opacity: 0.5
+            })
         }
     }
-    isWx();
+    opacity()
+    $('.cradID').bind('input propertychange',opacity);
 </script>
+<script src="/javascripts/pay.js"></script>
 <% include  ./common/footer%>

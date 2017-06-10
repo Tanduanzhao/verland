@@ -1,9 +1,16 @@
 <% include ./common/header%>
 <div class="container">
    <div class="list bgc-eee"></div>
+    <img src="/images/loading.gif" class="loading">
+    <div class="srollLoading-box">
+        <img src="/images/loading.gif" class="srollLoading">
+    </div>
 </div>
 <script>
     var i= 1,totalPage= 1,isLoadData=true;
+    if(totalPage== 1){
+        $(".srollLoading-box").hide()
+    }
       function getDatas(){
           fetch("/admin/issue?page="+i,{
               method:"GET",
@@ -15,15 +22,25 @@
           }).then((res)=>{
               return res.json()
           }).then(function(res){
+              console.log(res)
               if(res.status == 1 && res.datas.length != 0){
+                  $(".loading").hide()
                   var item="";
                   isLoadData=false;
                   totalPage=res.page.totalPage;
                   $(res.datas).each(function(index,ele){
-                      item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
+                      if(ele.statu == 1){
+                          item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
+                      }
                   });
                   $('.list').append(item);
+                  if(totalPage>i){
+                      $(".srollLoading-box").show()
+                  }else{
+                      $(".srollLoading-box").hide()
+                  }
               }else{
+                  $(".srollLoading-box").hide()
                   console.log("没数据")
               }
           })

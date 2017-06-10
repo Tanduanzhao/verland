@@ -1,0 +1,20 @@
+<% include ./common/header%>
+<div class="container centerAll">
+    <div class="centerAll-box">
+        <img src="/images/paySuccess.png" class="paySuccess">
+        <div class="paySuccess-text">
+            支付成功！
+        </div>
+    </div>
+</div>
+<script>
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+        $("title").text('微信支付');
+    } else if(ua.match(/AlipayClient/i)=="alipayclient"){
+        $("title").text('支付宝支付');
+    }else{
+        $("title").text('云量支付');
+    }
+</script>
+<% include  ./common/footer%>
