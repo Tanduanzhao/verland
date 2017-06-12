@@ -7,16 +7,52 @@
 */
 
 
-function updateCustomerByOpenId(openId,obj){
+function updateCustomerByOpenId(cradID,obj,openId){
+  return new Promise((resolve,reject)=>{
+    //customer
+    //  .update({openId:openId},{$set:obj},(err,result)=>{
+    //    if(err){
+    //      throw new Error(err);
+    //    }else{
+    //      resolve();
+    //    }
+    //  })
+    customer
+      .findOne()
+      .where({cradID:cradID})
+      .exec((err,result)=>{
+        console.log(result,result == null,"cc");
+        if(err){
+          throw new Error('查询错误!');
+        }else{
+          if(result == null){
+            console.log(obj,"csdcdsc")
+            saveUserInfo(obj);
+            resolve();
+          }else{
+            customer
+              .update({cradID:cradID},{$set:obj},(err,result)=>{
+                if(err){
+                  throw new Error(err);
+                }else{
+                  resolve();
+                }
+              })
+          }
+        }
+      });
+  })
+}
+function saveUserInfo(user){
     return new Promise((resolve,reject)=>{
-        customer
-                .update({openId:openId},{$set:obj},(err,result)=>{
-                    if(err){
-                        throw new Error(err);
-                    }else{
-                        resolve();
-                    }
-                })
+        new customer(user)
+          .save((err,result)=>{
+              if(err){
+                  reject(err);
+              }else{
+                  resolve(result);
+              }
+          })
     })
 }
 
@@ -43,11 +79,10 @@ module.exports = (req,res,next)=>{
     if(req.body.name){
         updateData.name = req.body.name
     }
-
-    if(req.body.payResult === 1){
+    if(req.body.payResult == 1){
         updateData.payStatu = 1;
     }
-    updateCustomerByOpenId(req.session.openId,updateData)
+    updateCustomerByOpenId(req.body.cradID,updateData,req.session.openId)
         .then(()=>{
             res.locals.status = 1;
             res.locals.message = '支付成功!';

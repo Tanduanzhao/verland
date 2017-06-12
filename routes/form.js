@@ -17,16 +17,16 @@ function getUserInfo(code){
                                             if(!oUserInfo){
                                                 return getUserInfoFormWx(result.access_token,result.openid)
                                                         .then((_userInfo)=>{
-                                                            return saveUserInfo({
-                                                                    openId:result.openid,
-                                                                    wxUsername:_userInfo.nickname,
-                                                                    wxImgUrl:_userInfo.headimgurl,
-                                                                    wxCode:code
-                                                                })
-                                                                .then((saveResult)=>{
-                                                                    console.log('保存了的用户信息:',saveResult);
-                                                                    return saveResult;
-                                                                })
+                                                            //return saveUserInfo({
+                                                            //        openId:result.openid,
+                                                            //        wxUsername:_userInfo.nickname,
+                                                            //        wxImgUrl:_userInfo.headimgurl,
+                                                            //        wxCode:code
+                                                            //    })
+                                                            //    .then((saveResult)=>{
+                                                            //        console.log('保存了的用户信息:',saveResult);
+                                                            //        return saveResult;
+                                                            //    })
                                                         })
                                             }else{
                                                 return updateCodeByOpenId(code,result.openid)

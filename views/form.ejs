@@ -6,7 +6,8 @@
         <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
     </div>
     <input class="input name" type="text" placeholder="请输入您的姓名">
-    <button class="button pay" type="button" onClick="isWeixinOrAlipay()">确认支付</button>
+    <button class="button pay" type="button" onClick="isWeixinOrAlipay()">支付1880元</button>
+    <a class="jumpProcess" href="/process">云量检测流程</a>
 </div>
 <script>
     var ua = navigator.userAgent.toLowerCase();
@@ -28,7 +29,7 @@
             })
         }
     }
-    opacity()
+    opacity();
     $('.cradID').bind('input propertychange',opacity);
 </script>
 <script src="/javascripts/pay.js"></script>

@@ -19,6 +19,7 @@ export default class Customer extends React.Component{
             method:'GET'
         }).then((res)=>{
             if(res.status === 1){
+              console.log(res.datas);
                 this.setState({
                     datas : res.datas,
                     page : res.page
@@ -61,6 +62,7 @@ class List extends React.Component{
                         <th>客户编号</th>
                         <th>客户姓名</th>
                         <th>付款状态</th>
+                        <th>检验状态</th>
                         <th>注册日期</th>
                         <th>操作</th>
                     </tr>
@@ -77,6 +79,17 @@ class List extends React.Component{
                                                 case 1: return '已支付';
                                             }
                                         })()}</td>
+                                        <td>
+                                          {(function(){
+                                            switch (item.checkStatu) {
+                                              case 0: return '未开始';
+                                              case 1: return '未送检';
+                                              case 2: return '送检中';
+                                              case 3: return '样本检验中';
+                                              case 4: return '报告已送出';
+                                            }
+                                          })()}
+                                        </td>
                                         <td>{item.date}</td>
                                         <td><Link className="uk-button uk-button-mini" to={`/index/customer/${item._id}`}><i className="uk-icon-edit"></i></Link></td>
                                     </tr>)

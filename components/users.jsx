@@ -38,7 +38,7 @@ export default class Users extends PureComponent{
 	render(){
 		return(
 			<div>
-				<Link className="uk-button" to="/index/users/add">添加用户</Link>
+				<Link className="uk-button" to="/index/users/add">添加管理账号</Link>
 				<UsersTable dataSources={this.state.dataSources}/>
 				<Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
 			</div>
