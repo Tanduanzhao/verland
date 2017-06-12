@@ -7,6 +7,7 @@
         <input id="number" class="input" type="text" placeholder="请输入查询编号">
         <button onclick="query()" class="button query-btn">查询进度</button>
     </div>
+    <img src="/images/loading.gif" class="loading none">
     <div class="progress">
         <span class="progressItem active">
             正在送检中，请耐心等待……
@@ -26,29 +27,46 @@
     </div>
 </div>
 <script>
+   function opacity(){
+       if($('.form #number').val() !=""){
+           $(".query-btn").css({
+               opacity: 1
+           })
+       }else{
+           $(".query-btn").css({
+               opacity: 0.5
+           })
+       }
+   }
+   opacity();
+    $('.form #number').bind('input propertychange',opacity);
     function query(){
-        fetch("/admin/customer/"+$("#number").val(),{
-            method:"GET",
-            body: JSON.stringify(),
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            }
-        }).then((res)=>{
-            return res.json();
-         }).then(function(res){
-            if(res.status == 1){
-                $(".form").hide();
-                $(".progress").show();
-                if(res.datas.checkStatu){
-                    $(".progress .progressItem").removeClass("active");
-                    let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
-                    $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+        if($("#number").val() != "" ){
+            $(".form").hide();
+            $(".loading").show();
+            fetch("/admin/customer/"+$("#number").val(),{
+                method:"GET",
+                body: JSON.stringify(),
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
                 }
-            }else{
-                window.location.href="/noQuery";
-            }
-        })
+            }).then((res)=>{
+                return res.json();
+            }).then(function(res){
+                if(res.status == 1){
+                    $(".loading").hide();
+                    $(".progress").show();
+                    if(res.datas.checkStatu){
+                        $(".progress .progressItem").removeClass("active");
+                        let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
+                        $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+                    }
+                }else{
+                    window.location.href="/noQuery";
+                }
+            })
+        }
     }
 </script>
 <% include  ./common/footer%>

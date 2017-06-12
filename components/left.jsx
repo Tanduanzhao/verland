@@ -28,7 +28,7 @@ export default class Left extends PureComponent{
 			path:"/index/issue"
 		},
 	  	{
-	  		name:"用户管理",
+	  		name:"平台设置",
 	  		iconName:"user",
 	  		path:"/index/users"
 	  	},{

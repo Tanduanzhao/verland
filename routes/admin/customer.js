@@ -36,7 +36,8 @@ function findOneCustomer(id){
             .select('cradID name payStatu statu checkStatu address phone')
             .exec((err,result)=>{
                 if(err){
-                    throw new Error(`查询${id}的客户出错!`);
+                    //throw new Error(`查询${id}的客户出错!`);
+                    return result = 0;
                 }else{
                     return result;
                 }
