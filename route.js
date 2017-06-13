@@ -24,13 +24,16 @@ module.exports = function(app) {
             res.sendFile(path.join(__dirname,'./MP_verify_TulMgRcUBXaRi7hY.txt'));
         })
     	.get('*', function(req, res, next) {
-            res.locals.title = '全局挂载的标题';
+            res.locals.title = '云量检测';
             next();
         })
         .get('/',function(req,res,next){
             res.redirect('/verland')
         })
         .get('/form', form)
+        .get('/payInfo', function(req, res, next) {
+          res.render('payInfo',{title:""});
+        })
         .get('/paySuccess', function(req, res, next) {
           res.render('paySuccess',{title:""});
         })
