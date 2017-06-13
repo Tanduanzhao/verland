@@ -47,8 +47,8 @@ function isPay(payResult){
     url:"/wxPayResult",
     data:{
       payResult:payResult,
-      cradID:$(".cradID").val(),
-      name:$(".name").val() || ""
+      cradID: sessionStorage.getItem("cradID"),
+      name: sessionStorage.getItem("name") || ""
     },
     success: (res)=> {
       if(res.status == 1){
@@ -60,7 +60,7 @@ function isPay(payResult){
 function isWeixinOrAlipay(){
   var ua = navigator.userAgent.toLowerCase();
   if(ua.match(/MicroMessenger/i)=="micromessenger") {
-    if($(".cradID").val() != ""){
+    if( sessionStorage.getItem("cradID") != "" && typeof sessionStorage.getItem("cradID") != null){
       $.ajax({
         type: "GET",
         url:"/wxPay",
@@ -74,7 +74,7 @@ function isWeixinOrAlipay(){
               paySign: res.datas.paySign ,// 支付签名
               success:  (res)=> {
                 // 支付成功后的回调函数
-                let payResult= 0;
+                var payResult= 0;
                 if (res.errMsg == "chooseWXPay:ok") {
                   payResult=1;
                   isPay(payResult);
@@ -82,6 +82,9 @@ function isWeixinOrAlipay(){
                 }
                 isPay(payResult);
               },
+              //cancel :(res)=>{
+              //  alert(JSON.stringify(res));
+              //},
               fail:(res)=>{
                 alert(JSON.stringify(res));
               }
@@ -89,12 +92,14 @@ function isWeixinOrAlipay(){
           }
         }
       })
+    }else{
+      window.location.href= "/payInfo";
     }
     console.log('微信浏览器');
   } else{
     console.log('支付宝浏览器');
-    if($(".cradID").val() != ""){
-      window.location.href= "HTTPS://QR.ALIPAY.COM/FKX067208J6GJ1KK9HJB32";
+    if( sessionStorage.getItem("cradID") != ""){
+      //window.location.href= "HTTPS://QR.ALIPAY.COM/FKX067208J6GJ1KK9HJB32";
     }
   }
 }

@@ -1,13 +1,43 @@
 <% include ./common/header%>
-<img src="/images/logo.png" class="logo">
-<h3 class="title">新生儿遗传代谢病检测</h3>
-<div class="form">
-    <div class="input-group">
-        <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
+<div class="container bgc-eee">
+    <div class="payInfo bgc-eee">
+        <div class="payInfo-money">
+            <div class="payInfo-moneyName">订单金额</div>
+            <div class="payInfo-moneyNum">￥1880</div>
+        </div>
+        <div class="payInfo-name">
+            订单名称：新生儿遗传代谢病检测
+        </div>
+        <div  class="payInfo-content">
+            <table>
+                <thead>
+                <tr>
+                    <th> 检测项目</th>
+                    <th class="tac"> 数量（56）</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> 氨基酸代谢障碍类遗传代谢病</td>
+                    <td class="tac">19</td>
+                </tr>
+                <tr>
+                    <td>有机酸血症类遗传代谢病</td>
+                    <td class="tac">15</td>
+                </tr>
+                <tr>
+                    <td> 脂肪酸氧化缺陷类遗传代谢病</td>
+                    <td class="tac">13</td>
+                </tr>
+                <tr>
+                    <td>溶酶体贮积症*</td>
+                    <td class="tac">9</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="button" onClick="isWeixinOrAlipay()">确认支付</button>
     </div>
-    <input class="input name" type="text" placeholder="请输入您的姓名">
-    <button class="button pay" type="button" onClick="isWeixinOrAlipay()">支付1880元</button>
-    <a class="jumpProcess" href="/process">云量检测流程</a>
 </div>
 <script>
     var ua = navigator.userAgent.toLowerCase();
@@ -18,19 +48,8 @@
     }else{
         $("title").text('云量支付');
     }
-    function opacity(){
-        if($('.cradID').val() !=""){
-            $(".pay").css({
-                opacity: 1
-            })
-        }else{
-            $(".pay").css({
-                opacity: 0.5
-            })
-        }
-    }
-    opacity();
-    $('.cradID').bind('input propertychange',opacity);
 </script>
 <script src="/javascripts/pay.js"></script>
 <% include  ./common/footer%>
+
+

@@ -96,7 +96,7 @@
             <div class="verland-title">公司整体优势总结</div>
             <div class="total">
                 <img src="/images/total.png" class="total-img">
-                <button class="total-button" type="button" onClick="isDetection()">开启检测</button>
+                <a class="total-button" href="/payInfo">开启检测</a>
             </div>
         </div>
     </div>
@@ -106,13 +106,5 @@
     var mySwiper = new Swiper ('.swiper-container', {
         direction: 'vertical'
     })
-    function isDetection(){
-        var ua = navigator.userAgent.toLowerCase();
-        if(ua.match(/MicroMessenger/i)=="micromessenger") {
-            window.location.href= "/form?platForm=wechat";
-        } else{
-            window.location.href= "/form";
-        }
-    }
 </script>
 <% include  ./common/footer%>

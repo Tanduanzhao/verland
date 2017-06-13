@@ -1,0 +1,42 @@
+<% include ./common/header%>
+<img src="/images/logo.png" class="logo">
+<h3 class="title">新生儿遗传代谢病检测</h3>
+<div class="form">
+    <div class="input-group">
+        <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
+    </div>
+    <input class="input name" type="text" placeholder="请输入您的姓名">
+    <button class="button pay" type="button" onClick="confirm()">确认信息</button>
+    <a class="jumpProcess" href="/verland">云量检测介绍</a>
+</div>
+<script>
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+        $("title").text('微信支付');
+    } else if(ua.match(/AlipayClient/i)=="alipayclient"){
+        $("title").text('支付宝支付');
+    }else{
+        $("title").text('云量支付');
+    }
+    function opacity(){
+        if($('.cradID').val() !=""){
+            $(".pay").css({
+                opacity: 1
+            })
+        }else{
+            $(".pay").css({
+                opacity: 0.5
+            })
+        }
+    }
+    function confirm(){
+        if($('.cradID').val() !=""){
+            sessionStorage.setItem("cradID", $(".cradID").val());
+            sessionStorage.setItem("name", $(".name").val());
+            window.location.href= "/form";
+        }
+    }
+    opacity();
+    $('.cradID').bind('input propertychange',opacity);
+</script>
+<% include  ./common/footer%>
