@@ -3,26 +3,26 @@
     <div class="imgBox">
         <img src="/images/query.png" class="logoTitleImg">
     </div>
-    <div class="form">
+    <div class="form queryId">
         <input id="number" class="input" type="text" placeholder="请输入查询编号">
         <button onclick="query()" class="button query-btn">查询进度</button>
     </div>
     <img src="/images/loading.gif" class="loading none">
     <div class="progress">
         <span class="progressItem active">
-            正在送检中，请耐心等待……
+            暂未开始采样
         </span>
          <span class="progressItem">
-             送检完成
+           采样完毕，暂未送检
         </span>
           <span class="progressItem">
-             检验完成
+            送检中
         </span>
           <span class="progressItem">
-             已寄出检验报告
+           样本检验中
         </span>
-          <span class="progressItem active">
-             检验报告已送达，请注意查收
+          <span class="progressItem">
+            报告已送出
         </span>
     </div>
 </div>
@@ -44,26 +44,21 @@
         if($("#number").val() != "" ){
             $(".form").hide();
             $(".loading").show();
-            fetch("/admin/customer/"+$("#number").val(),{
-                method:"GET",
-                body: JSON.stringify(),
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json'
-                }
-            }).then((res)=>{
-                return res.json();
-            }).then(function(res){
-                if(res.status == 1){
-                    $(".loading").hide();
-                    $(".progress").show();
-                    if(res.datas.checkStatu){
-                        $(".progress .progressItem").removeClass("active");
-                        let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
-                        $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+            $.ajax({
+                type: "GET",
+                url:"/query/"+$("#number").val() ,
+                success: function (res) {
+                    if(res.status == 1){
+                        $(".loading").hide();
+                        $(".progress").show();
+                        if(res.datas.checkStatu){
+                            $(".progress .progressItem").removeClass("active");
+                            let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
+                            $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+                        }
+                    }else{
+                        window.location.href="/noQuery";
                     }
-                }else{
-                    window.location.href="/noQuery";
                 }
             })
         }

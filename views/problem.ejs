@@ -12,35 +12,31 @@
         $(".srollLoading-box").hide()
     }
       function getDatas(){
-          fetch("/admin/issue?page="+i,{
-              method:"GET",
-              headers:{
-                  'Accept':'application/json',
-                  'Content-Type':'application/json'
-              }
-          }).then(function(res){
-              return res.json()
-          }).then(function(res){
-              console.log(res)
-              if(res.status == 1 && res.datas.length != 0){
-                  $(".loading").hide()
-                  var item="";
-                  isLoadData=false;
-                  totalPage=res.page.totalPage;
-                  $(res.datas).each(function(index,ele){
-                      if(ele.statu == 1){
-                          item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
+          $.ajax({
+              type: "GET",
+              url:"/admin/issue?page="+i ,
+              success: function (res) {
+                  console.log(res)
+                  if(res.status == 1 && res.datas.length != 0){
+                      $(".loading").hide()
+                      var item="";
+                      isLoadData=false;
+                      totalPage=res.page.totalPage;
+                      $(res.datas).each(function(index,ele){
+                          if(ele.statu == 1){
+                              item+="<a class='item icon-ask icon-right' href=/problemContent/"+ele._id+">"+ ele.title+'</a>';
+                          }
+                      });
+                      $('.list').append(item);
+                      if(totalPage>i){
+                          $(".srollLoading-box").show()
+                      }else{
+                          $(".srollLoading-box").hide()
                       }
-                  });
-                  $('.list').append(item);
-                  if(totalPage>i){
-                      $(".srollLoading-box").show()
                   }else{
                       $(".srollLoading-box").hide()
+                      console.log("没数据")
                   }
-              }else{
-                  $(".srollLoading-box").hide()
-                  console.log("没数据")
               }
           })
       }
