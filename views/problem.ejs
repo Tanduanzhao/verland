@@ -14,12 +14,11 @@
       function getDatas(){
           fetch("/admin/issue?page="+i,{
               method:"GET",
-              body: JSON.stringify(),
               headers:{
                   'Accept':'application/json',
                   'Content-Type':'application/json'
               }
-          }).then((res)=>{
+          }).then(function(res){
               return res.json()
           }).then(function(res){
               console.log(res)

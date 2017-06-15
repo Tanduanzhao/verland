@@ -14,6 +14,7 @@ const form = require('./routes/form.js');
 const initWx = require('./routes/initWx.js');
 const wxPay = require('./routes/wxPay.js');
 const wxPayResult = require('./routes/wxPayResult.js');
+const query = require('./routes/query.js');
 
 const issueDatas = require('./model/issue.js');
 
@@ -40,6 +41,7 @@ module.exports = function(app) {
         .get('/query', function(req, res, next) {
             res.render('query',{title:"进度查询"});
          })
+
           .get('/noQuery', function(req, res, next) {
               res.render('noQuery',{title:"进度查询"});
           })
@@ -71,6 +73,8 @@ module.exports = function(app) {
         .get('/initWx',initWx)
         .get('/wxPay',wxPay)
         .post('/wxPayResult',wxPayResult)
+        //根据客户编号来查询用户进度
+        .get('/query/:id',query)
         //登录
         .post('/admin/login', login.in)
         //注销

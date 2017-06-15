@@ -1,4 +1,4 @@
-const {wx} = require('../config.inc.js');
+const {wx,money} = require('../config.inc.js');
 const common = require('../modules/common.js');
 const request = require('request');
 let xml2js = require('xml2js');
@@ -12,7 +12,7 @@ function getPayOrder(req){
         nonce_str:common.getRandomString(),
         body:'云量检测-服务',
         out_trade_no:common.getTrade(),
-        total_fee:1,
+        total_fee:money,
         spbill_create_ip:common.getClientIp(req),
         notify_url:'/',
         trade_type:'JSAPI',
