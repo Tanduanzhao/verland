@@ -44,26 +44,21 @@
         if($("#number").val() != "" ){
             $(".form").hide();
             $(".loading").show();
-            fetch("/admin/customer/"+$("#number").val(),{
-                method:"GET",
-                body: JSON.stringify(),
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json'
-                }
-            }).then((res)=>{
-                return res.json();
-            }).then(function(res){
-                if(res.status == 1){
-                    $(".loading").hide();
-                    $(".progress").show();
-                    if(res.datas.checkStatu){
-                        $(".progress .progressItem").removeClass("active");
-                        let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
-                        $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+            $.ajax({
+                type: "GET",
+                url:"/query/"+$("#number").val() ,
+                success: function (res) {
+                    if(res.status == 1){
+                        $(".loading").hide();
+                        $(".progress").show();
+                        if(res.datas.checkStatu){
+                            $(".progress .progressItem").removeClass("active");
+                            let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
+                            $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+                        }
+                    }else{
+                        window.location.href="/noQuery";
                     }
-                }else{
-                    window.location.href="/noQuery";
                 }
             })
         }

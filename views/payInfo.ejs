@@ -1,13 +1,16 @@
 <% include ./common/header%>
-<img src="/images/logo.png" class="logo">
-<h3 class="title">新生儿遗传代谢病检测</h3>
-<div class="form">
-    <div class="input-group">
-        <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
+<div class="container">
+    <img src="/images/logo.png" class="logo">
+    <h3 class="title">新生儿遗传代谢病检测</h3>
+    <div class="form">
+        <div class="input-group">
+            <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
+            <span class="hint">提示：查询编号请在新生儿遗传代谢病申请单上查看</span>
+        </div>
+        <input class="input name" type="text" placeholder="请输入您的姓名">
+        <button class="button pay" type="button" onClick="confirm()">确认信息</button>
+        <a class="jumpProcess" href="/verland">云量检测介绍</a>
     </div>
-    <input class="input name" type="text" placeholder="请输入您的姓名">
-    <button class="button pay" type="button" onClick="confirm()">确认信息</button>
-    <a class="jumpProcess" href="/verland">云量检测介绍</a>
 </div>
 <script>
     var ua = navigator.userAgent.toLowerCase();
