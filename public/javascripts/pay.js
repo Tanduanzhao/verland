@@ -34,7 +34,7 @@ function getWxJssdk(){
   $.ajax({
     type: "GET",
     url:"/initWx?url="+encodeURIComponent(location.href.split('#')[0]),
-    success: (res)=> {
+    success: function(res){
       if(res.status == 1){
         loadJssdk(res)
       }
@@ -50,7 +50,7 @@ function isPay(payResult){
       cradID: sessionStorage.getItem("cradID"),
       name: sessionStorage.getItem("name") || ""
     },
-    success: (res)=> {
+    success: function(res){
       if(res.status == 1){
         window.location.href= "/paySuccess";
       }
@@ -64,7 +64,7 @@ function isWeixinOrAlipay(){
       $.ajax({
         type: "GET",
         url:"/wxPay",
-        success: (res)=> {
+        success: function(res){
           if(res.status == 1){
             wx.chooseWXPay({
               timestamp: res.datas.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -72,7 +72,7 @@ function isWeixinOrAlipay(){
               package:  res.datas.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
               signType: res.datas.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
               paySign: res.datas.paySign ,// 支付签名
-              success:  (res)=> {
+              success:  function(res){
                 // 支付成功后的回调函数
                 var payResult= 0;
                 if (res.errMsg == "chooseWXPay:ok") {
@@ -85,7 +85,7 @@ function isWeixinOrAlipay(){
               //cancel :(res)=>{
               //  alert(JSON.stringify(res));
               //},
-              fail:(res)=>{
+              fail:function(res){
                 alert(JSON.stringify(res));
               }
             });
