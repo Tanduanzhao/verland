@@ -15,11 +15,14 @@ function countCustomer(conditions = {}){
 function findCustomer(conditions = {}){
     return customer
             .find()
-            .select('cradID name payStatu statu checkStatu date address phone')
             .where(conditions)
-            .sort({date:-1})
+
+            .select('cradID name payStatu statu checkStatu date address phone')
+
+
             .skip((page.pageNo-1)*page.size)
             .limit(page.size)
+            .sort('-_id')
             .exec((err,result)=>{
                 if(err){
                     console.log(err);
