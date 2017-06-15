@@ -41,18 +41,22 @@ function getWxJssdk(){
     }
   })
 }
-function isPay(payResult){
+function isPay(payResult,callBack){
+    var callback = callBack || function(){};
+    alert(localStorage.getItem("cradID"));
   $.ajax({
     type: "POST",
     url:"/wxPayResult",
     data:{
       payResult:payResult,
-      cradID: sessionStorage.getItem("cradID"),
-      name: sessionStorage.getItem("name") || ""
+      cradID: localStorage.getItem("cradID"),
+      name: localStorage.getItem("name") || ""
     },
     success: function(res){
       if(res.status == 1){
-        window.location.href= "/paySuccess";
+        localStorage.removeItem('cradID');
+        localStorage.removeItem('name');
+        callback();
       }
     }
   })
@@ -60,7 +64,7 @@ function isPay(payResult){
 function isWeixinOrAlipay(){
   var ua = navigator.userAgent.toLowerCase(),payResult= 0;
   if(ua.match(/MicroMessenger/i)=="micromessenger") {
-    if( sessionStorage.getItem("cradID") != "" && typeof sessionStorage.getItem("cradID") != null){
+    if( localStorage.getItem("cradID") != "" && typeof localStorage.getItem("cradID") != null){
       $.ajax({
         type: "GET",
         url:"/wxPay",
@@ -74,13 +78,15 @@ function isWeixinOrAlipay(){
               paySign: res.datas.paySign ,// 支付签名
               success:  function(res){
                 // 支付成功后的回调函数
+                var callBack = function(){};
                 if (res.errMsg == "chooseWXPay:ok") {
                   payResult=1;
+                  callBack = function(){window.location.href= "/paySuccess";};
                 }
-                isPay(payResult);
+                isPay(payResult,callBack);
               },
-              cancel :function(res){
-                isPay(payResult);
+              cancel:function(){
+                  isPay(payResult)
               },
               fail:function(res){
                 alert(JSON.stringify(res));
@@ -95,7 +101,7 @@ function isWeixinOrAlipay(){
     console.log('微信浏览器');
   } else{
     console.log('支付宝浏览器');
-    if( sessionStorage.getItem("cradID") != ""){
+    if( localStorage.getItem("cradID") != ""){
       window.location.href= "HTTPS://QR.ALIPAY.COM/FKX08304RZEUIO0OWZJG93";
     }
   }

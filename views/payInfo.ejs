@@ -34,8 +34,8 @@
     }
     function confirm(){
         if($('.cradID').val() !=""){
-            sessionStorage.setItem("cradID", $(".cradID").val());
-            sessionStorage.setItem("name", $(".name").val());
+            localStorage.setItem("cradID", $(".cradID").val());
+            localStorage.setItem("name", $(".name").val());
             window.location.href= "/form";
         }
     }
