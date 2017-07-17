@@ -1,23 +1,63 @@
 /**
  * Created by Administrator on 2017/6/7.
  */
-function url2obj(){
-  var str = location.search.slice(1);
-  str = str.split('&');
-  var obj = {};
-  str.forEach(function(ele) {
-    var _index = ele.indexOf('=');
-    obj[ele.slice(0, _index)] = decode(ele.slice(_index + 1));
-  });
-  return obj;
+
+
+function isPay(payResult,callBack){
+    var callback = callBack || function(){};
+  $.ajax({
+    type: "POST",
+    url:"/wxPayResult",
+    data:{
+      payResult:payResult,
+      cradID: location.search.slice(location.search.indexOf('=')+1),
+    },
+    success: function(res){
+      if(res.status == 1){
+        callback();
+      }
+    }
+  })
 }
-function decode(str) {
-  return decodeURI(decodeURI(str));
-}
-function isWx(){
-  var ua = navigator.userAgent.toLowerCase();
-  if(ua.match(/MicroMessenger/i)=="micromessenger" && url2obj().platForm == undefined) {
-    window.location.href= "/form?platForm=wechat";
+function isWeixinOrAlipay(){
+  var ua = navigator.userAgent.toLowerCase(),payResult= 0;
+  if(ua.match(/MicroMessenger/i)=="micromessenger") {
+      if(!location.search.slice(location.search.indexOf('=')+1)){window.location.href('/payInfo');return false;};
+      $.ajax({
+        type: "GET",
+        url:"/wxPay",
+        success: function(res){
+          if(res.status == 1){
+            wx.chooseWXPay({
+              timestamp: res.datas.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              nonceStr: res.datas.nonceStr, // 支付签名随机串，不长于 32 位
+              package:  res.datas.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+              signType: res.datas.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              paySign: res.datas.paySign ,// 支付签名
+              success:  function(res){
+                // 支付成功后的回调函数
+                var callBack = function(){};
+                if (res.errMsg == "chooseWXPay:ok") {
+                  payResult=1;
+                  callBack = function(){window.location.href= "/paySuccess";};
+                }
+                isPay(payResult,callBack);
+              },
+              cancel :function(res){
+                isPay(payResult);
+              },
+              fail:function(res){
+                alert(JSON.stringify(res));
+              }
+            });
+          }
+        }
+      })
+  }else{
+    console.log('支付宝浏览器');
+    if(location.search.slice(location.search.indexOf('=')+1)){
+      window.location.href= "HTTPS://QR.ALIPAY.COM/FKX08304RZEUIO0OWZJG93";
+    }
   }
 }
 function loadJssdk(res){
@@ -41,71 +81,5 @@ function getWxJssdk(){
     }
   })
 }
-function isPay(payResult,callBack){
-    var callback = callBack || function(){};
-    alert(localStorage.getItem("cradID"));
-  $.ajax({
-    type: "POST",
-    url:"/wxPayResult",
-    data:{
-      payResult:payResult,
-      cradID: localStorage.getItem("cradID"),
-      name: localStorage.getItem("name") || ""
-    },
-    success: function(res){
-      if(res.status == 1){
-        localStorage.removeItem('cradID');
-        localStorage.removeItem('name');
-        callback();
-      }
-    }
-  })
-}
-function isWeixinOrAlipay(){
-  var ua = navigator.userAgent.toLowerCase(),payResult= 0;
-  if(ua.match(/MicroMessenger/i)=="micromessenger") {
-    if( localStorage.getItem("cradID") != "" && typeof localStorage.getItem("cradID") != null){
-      $.ajax({
-        type: "GET",
-        url:"/wxPay",
-        success: function(res){
-          if(res.status == 1){
-            wx.chooseWXPay({
-              timestamp: res.datas.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-              nonceStr: res.datas.nonceStr, // 支付签名随机串，不长于 32 位
-              package:  res.datas.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-              signType: res.datas.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-              paySign: res.datas.paySign ,// 支付签名
-              success:  function(res){
-                // 支付成功后的回调函数
-                var callBack = function(){};
-                if (res.errMsg == "chooseWXPay:ok") {
-                  payResult=1;
-                  callBack = function(){window.location.href= "/paySuccess";};
-                }
-                isPay(payResult,callBack);
-              },
-              cancel:function(){
-                  isPay(payResult)
-              },
-              fail:function(res){
-                alert(JSON.stringify(res));
-              }
-            });
-          }
-        }
-      })
-    }else{
-      window.location.href= "/payInfo";
-    }
-    console.log('微信浏览器');
-  } else{
-    console.log('支付宝浏览器');
-    if( localStorage.getItem("cradID") != ""){
-      window.location.href= "HTTPS://QR.ALIPAY.COM/FKX08304RZEUIO0OWZJG93";
-    }
-  }
-}
 
-isWx();
 getWxJssdk();

@@ -28,6 +28,7 @@ let Schema = new mongoose.Schema({
     },
     report:String,
     address:String,
+    hosName:String,//待产医院
     phone:String,
     openId:String,
     wxUsername:String,

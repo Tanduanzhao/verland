@@ -7,8 +7,10 @@
     url:http://192.168.1.194:3001/admin/customer
     method:PUT,
     params:{
-        cradID:required,
-        name:required
+        phone:required,
+        name:required,
+        hosName:required,
+        address:required
     }
 2.微信初始化
     url:http://192.168.1.194:3001/initWx?url=value
@@ -33,12 +35,29 @@
     method:POST,
     params:{
         payResult:require, 0-支付失败 1-支付成功   默认为0
-        cradID:require,
-        name:
+        phone:require,
+        name:,
+        hosName:,
+        address:
     }
+
+    注:此接口在支付成功以后会发送信息到云量工作人员
 5.查询检验进度
-    url:http://192.168.1.194:3001/query/:id
+    url:http://192.168.1.194:3001/query/:phone
     method:GET,
     params:{
-        id:require
+        phone:require
+    }
+6.发送验证码
+    url:http://192.168.1.194:3001/getCode
+    method:GET,
+    params:{
+        phone:required
+    }
+7.检验验证码正确性
+    url:http://192.168.1.194:3001/checkCode
+    method:GET,
+    params:{
+        phone:required,
+        code:required
     }

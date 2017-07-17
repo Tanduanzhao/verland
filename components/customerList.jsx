@@ -59,7 +59,7 @@ class List extends React.Component{
             <table className="uk-table uk-table-striped uk-table-hover">
                 <thead>
                     <tr>
-                        <th>客户编号</th>
+                        <th>联系方式</th>
                         <th>客户姓名</th>
                         <th>付款状态</th>
                         <th>检验状态</th>
@@ -71,7 +71,7 @@ class List extends React.Component{
                     {
                         this.props.datas.map((item)=>{
                             return (<tr key={item._id}>
-                                        <td>{item.cradID}</td>
+                                        <td>{item.phone}</td>
                                         <td>{item.name}</td>
                                         <td>{(function(){
                                             switch (item.payStatu) {

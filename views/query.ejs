@@ -5,7 +5,7 @@
     </div>
     <div class="form queryId">
         <input id="number" class="input" type="text" placeholder="请输入查询编号">
-        <button onclick="query()" class="button query-btn">查询进度</button>
+        <button onClick="query()" class="button query-btn">查询进度</button>
     </div>
     <img src="/images/loading.gif" class="loading none">
     <div class="progress">
@@ -42,19 +42,23 @@
     $('.form #number').bind('input propertychange',opacity);
     function query(){
         if($("#number").val() != "" ){
-            $(".form").hide();
-            $(".loading").show();
+            $(".form").hide(0);
+            $(".loading").show(0);
+            $(".imgBox").hide()
             $.ajax({
                 type: "GET",
                 url:"/query/"+$("#number").val() ,
                 success: function (res) {
+                    $(".loading").hide(0);
                     if(res.status == 1){
-                        $(".loading").hide();
-                        $(".progress").show();
-                        if(res.datas.checkStatu){
+                        if(res.datas){
+                            $(".progress").show(0);
+                            $(".imgBox").show()
                             $(".progress .progressItem").removeClass("active");
-                            let progressItem = $(".progress .progressItem")[res.datas.checkStatu]
+                            var progressItem = $(".progress .progressItem")[res.datas.checkStatu]
                             $(progressItem).addClass("active").prevAll().andSelf().css({display:"flex"})
+                        }else{
+                            window.location.href="/noQuery";
                         }
                     }else{
                         window.location.href="/noQuery";

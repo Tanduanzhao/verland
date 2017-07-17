@@ -4,13 +4,14 @@ export default class CustomerAdd extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            required:['cradID','name'],
+            required:['phone','name','hosName','address'],
             cradID:'',
             name:'',
             payStatu:0,
             statu:1,
             checkStatu:0,
             address:'',
+            hosName:'',
             phone:''
         }
     }
@@ -51,6 +52,11 @@ export default class CustomerAdd extends React.Component {
                 this.setState({
                     phone:value
                 })
+            },
+            _onHosName:(value)=>{
+                this.setState({
+                    hosName:value
+                })
             }
         }
     }
@@ -85,6 +91,11 @@ export default class CustomerAdd extends React.Component {
                         phone:res.datas.phone
                     })
                 }
+                if(!!res.datas.hosName){
+                    this.setState({
+                        hosName:res.datas.hosName
+                    })
+                }
 
             }
         })
@@ -110,7 +121,8 @@ export default class CustomerAdd extends React.Component {
                 statu:this.state.statu,
                 checkStatu:this.state.checkStatu,
                 address:this.state.address,
-                phone:this.state.phone
+                phone:this.state.phone,
+                hosName:this.state.hosName
             }
         }).then((res)=>{
             if(res.status === 1){
@@ -133,7 +145,8 @@ export default class CustomerAdd extends React.Component {
                 checkStatu:this.state.checkStatu,
                 editDate:new Date(),
                 address:this.state.address,
-                phone:this.state.phone
+                phone:this.state.phone,
+                hosName:this.state.hosName
             }
         }).then((res)=>{
             if(res.status === 1){
@@ -171,20 +184,25 @@ class Form extends React.Component {
         return(
             <div className="uk-form uk-form-stacked">
                 <div className="uk-form-row">
-                    <label className="uk-form-label">用户编号 *</label>
-                    <input value={this.props.cradID} onChange={(e)=>this.props.action._onCradID(e.target.value)} type="text" className="uk-form-input uk-from-width-large"/>
+                    <label className="uk-form-label">联系方式 *</label>
+                    <input value={this.props.phone} onChange={(e)=>this.props.action._onPhone(e.target.value)} type="text" className="uk-form-input"/>
                 </div>
                 <div className="uk-form-row">
                     <label className="uk-form-label">用户姓名 *</label>
                     <input value={this.props.name} onChange={(e)=>this.props.action._onName(e.target.value)} type="text" className="uk-form-input uk-from-width-large"/>
                 </div>
                 <div className="uk-form-row">
-                    <label className="uk-form-label">地址信息</label>
-                    <input value={this.props.address} onChange={(e)=>this.props.action._onAddress(e.target.value)} type="text" className="uk-form-width-large"/>
+                    <label className="uk-form-label">待产医院 *</label>
+                    <input value={this.props.hosName} onChange={(e)=>this.props.action._onHosName(e.target.value)} type="text" className="uk-form-input uk-from-width-large"/>
                 </div>
                 <div className="uk-form-row">
-                    <label className="uk-form-label">联系方式</label>
-                    <input value={this.props.phone} onChange={(e)=>this.props.action._onPhone(e.target.value)} type="text" className="uk-form-input"/>
+                    <label className="uk-form-label">地址信息 *</label>
+                    <input value={this.props.address} onChange={(e)=>this.props.action._onAddress(e.target.value)} type="text" className="uk-form-width-large"/>
+                </div>
+
+                <div className="uk-form-row">
+                    <label className="uk-form-label">用户编号</label>
+                    <input value={this.props.cradID} onChange={(e)=>this.props.action._onCradID(e.target.value)} type="text" className="uk-form-input uk-from-width-large"/>
                 </div>
                 <div className="uk-form-row">
                     <label className="uk-form-label">支付状态</label>

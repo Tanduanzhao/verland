@@ -95,8 +95,9 @@ module.exports = {
             cradID:req.body.cradID,
             name:req.body.name,
             payStatu:req.body.payStatu,
+            hosName:req.body.hosName,
             statu:req.body.statu,
-            checkStatu:req.body.statu,
+            checkStatu:req.body.checkStatu,
             address:req.body.address,
             phone:req.body.phone
         };
@@ -133,6 +134,7 @@ module.exports = {
             statu:req.body.statu,
             editDate:req.body.editDate,
             name:req.body.name,
+            hosName:req.body.hosName,
             address:req.body.address,
             phone:req.body.phone
         };

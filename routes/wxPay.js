@@ -14,22 +14,23 @@ function getPayOrder(req){
         out_trade_no:common.getTrade(),
         total_fee:money,
         spbill_create_ip:common.getClientIp(req),
-        notify_url:'/',
+        notify_url:'/form',
         trade_type:'JSAPI',
         openid:req.session.openId
     }
+    // console.log(payObj.openid);
     const keys = Object.keys(payObj).sort();
     const sign = common.md5String(keys,payObj);
     payObj.sign = sign;
     // console.log(sign);
-    console.log(payObj);
+    // console.log(payObj);
     const url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     let formDate = '<xml>';
     for(let key in payObj){
         formDate += `<${key}>${payObj[key]}</${key}>`;
     }
     formDate += '</xml>';
-    console.log(formDate);
+    // console.log(formDate);
     return new Promise((resolve,reject)=>{
         request({
             url:url,

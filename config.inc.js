@@ -29,5 +29,9 @@ module.exports = {
 		md5Key:'44ipadkt2l9gkoop0yztpydm6p7qz0xf',
 		sha1Key:'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0EzbDDJfaL6oKEkd4zEe47vMQEh1vklO60JuV3WyEHbETWPGkWoaQeojfsRnGzU/HHHvjCvmeFE/yHCsAAsI0ZVIUZnABNc5UidjqK2wzN7GTlQunjuzsVi4EkeNq8QOO3YGa2nHKVvIxjDg1gCosr3L9qFxYrLGYdCVTXXMKDQIDAQAB',
 		aliKey:'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB'
+	},
+	sms:{
+		url:'http://sms.market.alicloudapi.com/singleSendSms',
+		appcode:'99a6e394164b4c24a7ea7c61b9239dad'
 	}
 }

@@ -6,10 +6,12 @@
     name
 */
 
+const smsFn = require('../modules/sms');
 
-function updateCustomerByOpenId(cradID,obj,openId){
+
+function updateCustomerByOpenId(phone,obj,openId){
   return new Promise((resolve,reject)=>{
-    //customer
+    // customer
     //  .update({openId:openId},{$set:obj},(err,result)=>{
     //    if(err){
     //      throw new Error(err);
@@ -19,19 +21,17 @@ function updateCustomerByOpenId(cradID,obj,openId){
     //  })
     customer
       .findOne()
-      .where({cradID:cradID})
+      .where({phone:phone})
       .exec((err,result)=>{
-        console.log(result,result == null,"cc");
         if(err){
           throw new Error('查询错误!');
         }else{
           if(result == null){
-            console.log(obj,"csdcdsc")
             saveUserInfo(obj);
             resolve();
           }else{
             customer
-              .update({cradID:cradID},{$set:obj},(err,result)=>{
+              .update({phone:phone},{$set:obj},(err,result)=>{
                 if(err){
                   throw new Error(err);
                 }else{
@@ -68,21 +68,35 @@ module.exports = (req,res,next)=>{
         next();
         return;
     }
-    if(!req.body.cradID){
-        res.locals.message = '用户编号必须存在!';
+    if(!req.body.phone){
+        res.locals.message = '用户手机号必须存在!';
         next();
         return;
     }
     let updateData = {
-        cradID:req.body.cradID
+        phone:req.body.phone
     }
     if(req.body.name){
         updateData.name = req.body.name
     }
+    if(req.body.hosName){
+        updateData.hosName = req.body.hosName
+    }
+    if(req.body.address){
+        updateData.address = req.body.address
+    }
     if(req.body.payResult == 1){
         updateData.payStatu = 1;
     }
-    updateCustomerByOpenId(req.body.cradID,updateData,req.session.openId)
+    updateCustomerByPhone(req.body.phone,updateData,req.session.openId)
+        .then(()=>{
+            return smsFn.send({
+                ParamString:`${encodeURIComponent(JSON.stringify({'user':req.query.phone}))}`,
+                RecNum:'18805712071',
+                SignName:encodeURIComponent('云量检测'),
+                TemplateCode:'SMS_77335074'
+            })
+        })
         .then(()=>{
             res.locals.status = 1;
             res.locals.message = '支付成功!';
