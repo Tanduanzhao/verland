@@ -15,11 +15,14 @@ function countCustomer(conditions = {}){
 function findCustomer(conditions = {}){
     return customer
             .find()
-            .select('cradID name payStatu statu checkStatu date address phone')
             .where(conditions)
-            .sort({date:-1})
+
+            .select('cradID name payStatu statu checkStatu date address phone')
+
+
             .skip((page.pageNo-1)*page.size)
             .limit(page.size)
+            .sort('-_id')
             .exec((err,result)=>{
                 if(err){
                     console.log(err);
@@ -92,8 +95,9 @@ module.exports = {
             cradID:req.body.cradID,
             name:req.body.name,
             payStatu:req.body.payStatu,
+            hosName:req.body.hosName,
             statu:req.body.statu,
-            checkStatu:req.body.statu,
+            checkStatu:req.body.checkStatu,
             address:req.body.address,
             phone:req.body.phone
         };
@@ -130,6 +134,7 @@ module.exports = {
             statu:req.body.statu,
             editDate:req.body.editDate,
             name:req.body.name,
+            hosName:req.body.hosName,
             address:req.body.address,
             phone:req.body.phone
         };

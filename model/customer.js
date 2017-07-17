@@ -24,10 +24,11 @@ let Schema = new mongoose.Schema({
     },
     checkStatu:{
         type:Number,
-        default:0//0->未开始；1->未送检；2->送检中；3->样本检验中;4->报告已送出；
+        default:0//0->还为开始采样；1->未送检；2->送检中；3->样本检验中;4->报告已送出；
     },
     report:String,
     address:String,
+    hosName:String,//待产医院
     phone:String,
     openId:String,
     wxUsername:String,

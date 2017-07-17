@@ -1,13 +1,13 @@
 const customer = require('../model/customer.js');
-function getCustomerByCradId(cId){
+function getCustomerByCradId(phone){
     return customer
                 .findOne()
-                .where({cradID:cId})
-                .select('cradID checkStatu')
+                .where({phone:phone})
+                .select('phone checkStatu')
                 .exec((err,result)=>{
                     console.log(result);
                     if(err){
-                        throw new Error(`查询编号为${cId}的用户资料出错!`);
+                        throw new Error(`查询编号为${phone}的用户资料出错!`);
                     }else{
                         return result;
                     }
@@ -16,12 +16,12 @@ function getCustomerByCradId(cId){
 
 
 module.exports = (req,res,next)=>{
-    if(!req.params.id){
-        res.locals.message = '查询编号不存在!';
+    if(!req.params.phone){
+        res.locals.message = '手机号不存在!';
         next();
         return;
     }
-    getCustomerByCradId(req.params.id)
+    getCustomerByCradId(req.params.phone)
         .then((result)=>{
             res.locals.status = 1;
             res.locals.datas = result;

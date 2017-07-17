@@ -3,7 +3,6 @@ const {wx,url}  = require('../config.inc.js');
 const request = require('request');
 const customer = require('../model/customer.js');
 var router = express.Router();
-
 function getUserInfo(code){
     return getUserInfoFromCode(code)
             .then((userInfo)=>{
@@ -17,7 +16,9 @@ function getUserInfo(code){
                                             if(!oUserInfo){
                                                 return getUserInfoFormWx(result.access_token,result.openid)
                                                         .then((_userInfo)=>{
-                                                            _userInfo.appId = _userInfo.appid;
+                                                            _userInfo.openId = _userInfo.openid;
+                                                            _userInfo.wxUsername = _userInfo.nickname;
+                                                            _userInfo.wxImgUrl = _userInfo.headimgurl;
                                                             return _userInfo;
                                                             //return saveUserInfo({
                                                             //        openId:result.openid,
@@ -143,8 +144,27 @@ function updateCodeByOpenId(code,openId){
 }
 
 
-/* GET home page. */
-module.exports = function(req, res, next) {
-        res.render('form',{title:' '})
+module.exports =  (req, res, next) => {
 
-};
+  if(req.query.platForm === 'wechat'){
+      if(!req.query.code){
+          res.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.appId}&redirect_uri=${url+req.originalUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`);
+      }else{
+          getUserInfo(req.query.code)
+              .then((userInfo)=>{
+                  console.log('获取到的最后的用户信息',userInfo);
+                  req.session.openId = userInfo.openId;
+                  req.session.userInfo = {
+                      openId:userInfo.openId,
+                      wxCode:req.query.code,
+                      wxUsername:userInfo.wxUsername,
+                      wxImgUrl:userInfo.wxImgUrl
+                  };
+                  res.render('payInfo',{title:""});
+                  return false;
+              })
+      }
+  }else{
+      res.render('payInfo',{title:""});
+  }
+}

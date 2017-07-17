@@ -55,5 +55,13 @@ module.exports = {
     },
     getClientIp(req){
         return req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1)
+    },
+    random4Number(){
+        let number = '0123456789';
+        let _str = [];
+        while(_str.length<4){
+            _str.push(number[~~(Math.random()*number.length)]);
+        };
+        return _str.join('');
     }
 }

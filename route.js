@@ -15,8 +15,10 @@ const initWx = require('./routes/initWx.js');
 const wxPay = require('./routes/wxPay.js');
 const wxPayResult = require('./routes/wxPayResult.js');
 const query = require('./routes/query.js');
-
+const payInfo = require('./routes/payInfo.js');
+const addWxCustomer = require('./routes/addWxCustomer.js');
 const issueDatas = require('./model/issue.js');
+const sms = require('./routes/sms');
 
 /* GET home page. */
 module.exports = function(app) {
@@ -31,10 +33,10 @@ module.exports = function(app) {
         .get('/',function(req,res,next){
             res.redirect('/verland')
         })
+        .get('/getCode',sms.getCode)
+        .get('/checkCode',sms.checkCode)
         .get('/form', form)
-        .get('/payInfo', function(req, res, next) {
-          res.render('payInfo',{title:""});
-        })
+        .get('/payInfo',payInfo)
         .get('/paySuccess', function(req, res, next) {
           res.render('paySuccess',{title:""});
         })
@@ -75,6 +77,8 @@ module.exports = function(app) {
         .post('/wxPayResult',wxPayResult)
         //根据客户编号来查询用户进度
         .get('/query/:id',query)
+        //前台新增用户
+        .post('/addCustomer',addWxCustomer)
         //登录
         .post('/admin/login', login.in)
         //注销
