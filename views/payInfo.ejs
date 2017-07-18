@@ -1,28 +1,92 @@
 <% include ./common/header%>
-<div class="container">
+<div class="container inputInfo">
     <img src="/images/logo.png" class="logo">
     <h3 class="title">新生儿遗传代谢病检测</h3>
     <div class="form">
         <div class="input-group">
-            <input class="input cradID" type="text" placeholder="请输入查询编号"><span class="icon-must"> ＊</span>
-            <span class="hint">提示：查询编号请在新生儿遗传代谢病申请单上查看</span>
+            <span class="group-left">手机号码</span>
+            <div class="group-right">
+                <input class="input phone over" type="text" placeholder="请输入手机号码"><span class="icon-must">发送验证码</span>
+            </div>
         </div>
-        <input class="input name" type="text" placeholder="请输入您的姓名">
-        <button class="button pay" type="button" onClick="confirm()">确认信息</button>
-        <a class="jumpProcess" href="/verland">云量检测介绍</a>
+        <div class="input-group">
+            <span class="group-left"></span>
+            <div class="group-right">
+                  <input class="input code over" type="text" placeholder="请输入验证码"><span class="icon-verify"></span>
+            </div>
+        </div>
+        <div class="input-group">
+            <span class="group-left">母亲姓名</span>
+            <div class="group-right">
+                <input class="input name" type="text" placeholder="请输入母亲姓名">
+            </div>
+        </div>
+        <div class="input-group">
+             <span class="group-left">待产医院</span>
+            <div class="group-right">
+                <input class="input hosName" type="text" placeholder="请输入待产医院">
+            </div>
+        </div>
+        <div class="input-group">
+             <span class="group-left">收件地址</span>
+            <div class="group-right">
+                <input class="input address" type="text" placeholder="请输入收件地址">
+            </div>
+        </div>
     </div>
+    <div class="protocol-box" >
+        <i class="radio active"></i>
+        <a href="/protocol" class="protocol-link">
+            我已阅读《新生儿遗传代谢病筛查知情同意书》
+        </a>
+    </div>
+    <button class="button pay" type="button" onClick="confirm()">确认信息</button>
+    <a class="jumpProcess" href="/verland">检测介绍</a>
 </div>
+<script src="/javascripts/index.js"></script>
 <script>
-    var ua = navigator.userAgent.toLowerCase();
-    if(ua.match(/MicroMessenger/i)=="micromessenger") {
-        $("title").text('微信支付');
-    } else if(ua.match(/AlipayClient/i)=="alipayclient"){
-        $("title").text('支付宝支付');
-    }else{
-        $("title").text('云量支付');
+    var wait = 60;
+    //确认信息
+    function confirm(){
+        if(!isFull()) return;
+        if(!$('.radio').hasClass('active')){
+            alert('请阅读并同意同意书');
+            return;
+        }
+        $.ajax({
+            url:'/addCustomer',
+            method:'POST',
+            data:{
+                phone:$('.phone').val(),
+                name:$('.name').val(),
+                hosName:$('.hosName').val(),
+                address:$('.address').val()
+            },
+            success:function(result){
+                if(result.status === 1){
+                    window.location.href= "/form?phone="+$('.phone').val();
+                }else{
+                    alert(result.message);
+                }
+            }
+        })
+    }
+    function isWx(){
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)=="micromessenger" && typeof url2obj().platForm == 'undefined') {
+            window.location.href= "/payInfo?platForm=wechat";
+        }
+    }
+    //信息是否填写完整
+    function isFull(){
+        if(!!$('.phone').val() && !!$('.name').val() && !!$('.hosName').val() && !!$('.address').val() && !!$('.code').val() && $('.icon-verify').hasClass("correct")){
+            return true;
+        }else{
+            return false;
+        }
     }
     function opacity(){
-        if($('.cradID').val() !=""){
+        if(isFull()){
             $(".pay").css({
                 opacity: 1
             })
@@ -32,74 +96,59 @@
             })
         }
     }
-    function confirm(){
-        if($('.cradID').val() !=""){
-            $.ajax({
-                url:'/addCustomer',
-                method:'POST',
-                data:{
-                    cradID:$('.cradID').val(),
-                    name:$('.name').val()
-                },
-                success:function(result){
-                    if(result.status === 1){
-                        window.location.href= "/form?cardID="+$('.cradID').val();
-                    }else{
-                        alert(result.message);
-                    }
+    $('.radio').click(function(){
+       if($('.radio').hasClass('active')){
+           $(this).removeClass('active')
+       }else{
+           $(this).addClass('active')
+       }
+    })
+    $('.icon-must').click(function(){
+        if($('.phone').val() == ""){
+            alert('请输入手机号');
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url:"/getCode?phone="+$('.phone').val(),
+            success: function(res){
+                if(res.status == 1){
+                    loadJssdk(res);
+                    time();
                 }
-            })
+            }
+        })
+    })
+    function verifyCode(){
+        $.ajax({
+            url:'/checkCode?phone='+$('.phone').val()+'&code='+$('.code').val(),
+            method:'GET',
+            success:function(result){
+                if(result.status === 1){
+                    $('.input-group .icon-verify').removeClass('close').addClass('correct').show();
+                }else{
+                    $('.input-group .icon-verify').removeClass('correct').addClass('close').show()
+                    console.log(result.message);
+                }
+            }
+        })
+    }
+    //重新发送验证
+    function time() {
+        if (wait == 0) {
+            $('.icon-must').text("发送验证码");
+            wait = 60;
+        } else {
+            $('.icon-must').text("重新发送(" + wait + ")");
+            wait--;
+            setTimeout(function(){time()},1000)
         }
     }
-    opacity();
-    $('.cradID').bind('input propertychange',opacity);
-
-    function loadJssdk(res){
-      wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: res.datas.appId, // 必填，公众号的唯一标识
-        timestamp: res.datas.timestamp, // 必填，生成签名的时间戳
-        nonceStr: res.datas.noncestr, // 必填，生成签名的随机串
-        signature: res.datas.signature, // 必填，签名，见附录1
-        jsApiList: ['chooseWXPay','getLocation','openLocation','previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      });
-    }
-    function getWxJssdk(){
-      $.ajax({
-        type: "GET",
-        url:"/initWx?url="+encodeURIComponent(location.href.split('#')[0]),
-        success: function(res){
-          if(res.status == 1){
-            loadJssdk(res)
-          }
-        }
-      })
-    }
-
-    getWxJssdk();
-
-
-    function url2obj(){
-      var str = location.search.slice(1);
-      str = str.split('&');
-      var obj = {};
-      str.forEach(function(ele) {
-        var _index = ele.indexOf('=');
-        obj[ele.slice(0, _index)] = decode(ele.slice(_index + 1));
-      });
-      return obj;
-    }
-    function decode(str) {
-      return decodeURI(decodeURI(str));
-    }
-    function isWx(){
-      var ua = navigator.userAgent.toLowerCase();
-      if(ua.match(/MicroMessenger/i)=="micromessenger" && url2obj().platForm == undefined) {
-        window.location.href= "/payInfo?platForm=wechat";
-      }
-    }
-
+    $('.code').bind('input propertychange',verifyCode);
+    $('.input-group .group-right .input').bind('input propertychange',opacity);
+    updateTitle()
     isWx();
-
+    opacity();
+    getWxJssdk();
 </script>
 <% include  ./common/footer%>

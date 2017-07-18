@@ -37,6 +37,9 @@ module.exports = function(app) {
         .get('/checkCode',sms.checkCode)
         .get('/form', form)
         .get('/payInfo',payInfo)
+         .get('/protocol',function(req, res, next) {
+           res.render('protocol');
+         })
         .get('/paySuccess', function(req, res, next) {
           res.render('paySuccess',{title:""});
         })
@@ -56,7 +59,10 @@ module.exports = function(app) {
               })
           })
           .get('/verland', function(req, res, next) {
-              res.render('verland',{title:"云量检测介绍"});
+              res.render('verland',{title:"新筛健康评估"});
+          })
+          .get('/vitamin', function(req, res, next) {
+            res.render('vitamin',{title:"全谱维生素"});
           })
           .get('/introduce', function(req, res, next) {
               res.render('introduce',{title:"公司介绍"});
