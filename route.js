@@ -33,51 +33,62 @@ module.exports = function(app) {
         .get('/',function(req,res,next){
             res.redirect('/verland')
         })
+        //发送验证码
         .get('/getCode',sms.getCode)
+        //检验验证码
         .get('/checkCode',sms.checkCode)
+        //支付页面
         .get('/form', form)
+        //填写信息页面
         .get('/payInfo',payInfo)
-         .get('/protocol',function(req, res, next) {
-           res.render('protocol');
-         })
+        .get('/protocol',function(req, res, next) {
+          res.render('protocol');
+        })
         .get('/paySuccess', function(req, res, next) {
           res.render('paySuccess',{title:""});
         })
+        //进度查询
         .get('/query', function(req, res, next) {
             res.render('query',{title:"进度查询"});
          })
-
-          .get('/noQuery', function(req, res, next) {
-              res.render('noQuery',{title:"进度查询"});
+        //进度查询没有数据
+        .get('/noQuery', function(req, res, next) {
+          res.render('noQuery',{title:"进度查询"});
+        })
+        //常见问题页面
+        .get('/problem', function(req, res, next) {
+          res.render('problem',{title:"常见问题"});
+        })
+        //常见问题详情页面
+        .get(['problemContent','/problemContent/:type'], function(req, res, next) {
+          issueDatas.find().where({_id:req.params.type}).then(function(issueDatas){
+            res.render('problemContent',{issueDatas:issueDatas,title:"常见问题"});
           })
-          .get('/problem', function(req, res, next) {
-              res.render('problem',{title:"常见问题"});
-          })
-          .get(['problemContent','/problemContent/:type'], function(req, res, next) {
-              issueDatas.find().where({_id:req.params.type}).then(function(issueDatas){
-                  res.render('problemContent',{issueDatas:issueDatas,title:"常见问题"});
-              })
-          })
-          .get('/verland', function(req, res, next) {
-              res.render('verland',{title:"新筛健康评估"});
-          })
-          .get('/vitamin', function(req, res, next) {
-            res.render('vitamin',{title:"全谱维生素"});
-          })
-          .get('/introduce', function(req, res, next) {
-              res.render('introduce',{title:"公司介绍"});
-          })
-          .get('/process', function(req, res, next) {
-              res.render('process',{title:"检测流程"});
-          })
+        })
+        //新筛健康评估页面
+        .get('/verland', function(req, res, next) {
+          res.render('verland',{title:"新筛健康评估"});
+        })
+        //全谱维生素页面
+        .get('/vitamin', function(req, res, next) {
+          res.render('vitamin',{title:"全谱维生素"});
+        })
+        //公司介绍页面
+        .get('/introduce', function(req, res, next) {
+          res.render('introduce',{title:"公司介绍"});
+        })
+        //检测流程页面
+        .get('/process', function(req, res, next) {
+          res.render('process',{title:"检测流程"});
+        })
         //生成密码
         .get('/getMd5', md5)
 
-    	.get('/admin', admin)
-        .all('*', function(req, res, next) {
-            res.locals.status = 0;
-            next();
-        })
+        .get('/admin', admin)
+          .all('*', function(req, res, next) {
+              res.locals.status = 0;
+              next();
+          })
         .get('/initWx',initWx)
         .get('/wxPay',wxPay)
         .post('/wxPayResult',wxPayResult)

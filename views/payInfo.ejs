@@ -63,14 +63,16 @@
                 address:$('.address').val()
             },
             success:function(result){
+                console.log(result,"返回信息");
                 if(result.status === 1){
-                    window.location.href= "/form?phone="+$('.phone').val();
+                    window.location.href= "/form?id="+result.datas._id;
                 }else{
                     alert(result.message);
                 }
             }
         })
     }
+    //判断是否是微信
     function isWx(){
         var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/MicroMessenger/i)=="micromessenger" && typeof url2obj().platForm == 'undefined') {
@@ -85,6 +87,7 @@
             return false;
         }
     }
+    //按钮样式
     function opacity(){
         if(isFull()){
             $(".pay").css({
@@ -96,42 +99,25 @@
             })
         }
     }
-    $('.radio').click(function(){
-       if($('.radio').hasClass('active')){
-           $(this).removeClass('active')
-       }else{
-           $(this).addClass('active')
-       }
-    })
-    $('.icon-must').click(function(){
-        if($('.phone').val() == ""){
-            alert('请输入手机号');
-            return;
-        }
-        $.ajax({
-            type: "GET",
-            url:"/getCode?phone="+$('.phone').val(),
-            success: function(res){
-                if(res.status == 1){
-                    loadJssdk(res);
-                    time();
-                }
-            }
-        })
-    })
+    //验证验证码
     function verifyCode(){
-        $.ajax({
-            url:'/checkCode?phone='+$('.phone').val()+'&code='+$('.code').val(),
-            method:'GET',
-            success:function(result){
-                if(result.status === 1){
-                    $('.input-group .icon-verify').removeClass('close').addClass('correct').show();
-                }else{
-                    $('.input-group .icon-verify').removeClass('correct').addClass('close').show()
-                    console.log(result.message);
-                }
-            }
-        })
+        if(!!$('.code').val()){
+           if($('.code').val().length == 4){
+               $.ajax({
+                   url:'/checkCode?phone='+$('.phone').val()+'&code='+$('.code').val(),
+                   method:'GET',
+                   success:function(result){
+                       if(result.statu === 1){
+                           $('.input-group .icon-verify').removeClass('close').addClass('correct').show();
+                       }else{
+                           $('.input-group .icon-verify').removeClass('correct').addClass('close').show()
+                       }
+                   }
+               })
+           }
+        }else{
+            $('.input-group .icon-verify').attr('class','icon-verify').hide();
+        }
     }
     //重新发送验证
     function time() {
@@ -144,11 +130,56 @@
             setTimeout(function(){time()},1000)
         }
     }
+    //判断是否是手机号
+    function vailPhone(){
+        var phone = jQuery(".phone").val();
+        var flag = false;
+        var message = "";
+        var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if(phone == ''){
+           alert("手机号码不能为空！");
+        }else if(phone.length !=11){
+            alert("请输入有效的手机号码！");
+        }else if(!myreg.test(phone)){
+            alert("请输入有效的手机号码！");
+        }else{
+            flag = true;
+        }
+        return flag
+    }
+
+    $('.radio').click(function(){
+        if($('.radio').hasClass('active')){
+            $(this).removeClass('active')
+        }else{
+            $(this).addClass('active')
+        }
+    })
+    $('.icon-must').click(function(){
+        if(vailPhone()){
+            $.ajax({
+                type: "GET",
+                url:"/getCode?phone="+$('.phone').val(),
+                success: function(res){
+                    if(res.status == 1){
+                        loadJssdk(res);
+                        time();
+                    }
+                }
+            })
+        }
+    })
     $('.code').bind('input propertychange',verifyCode);
     $('.input-group .group-right .input').bind('input propertychange',opacity);
-    updateTitle()
+    //修改页面title名
+    updateTitle();
+    //判断验证码是否正确
+    verifyCode();
+    //判断浏览器
     isWx();
-    opacity();
+    //微信初始化
     getWxJssdk();
+    //判断按钮是否可以提交
+    opacity();
 </script>
 <% include  ./common/footer%>

@@ -61,6 +61,7 @@ module.exports = (req,res,next)=>{
     addCustomerByPhone(req.body.phone,req)
         .then((result)=>{
             res.locals.status = 1;
+            res.locals.datas = result;
             next();
         })
         .catch((err)=>{

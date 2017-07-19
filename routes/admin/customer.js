@@ -36,7 +36,7 @@ function findCustomer(conditions = {}){
 function findOneCustomer(id){
     return customer
             .findById(id)
-            .select('cradID name payStatu statu checkStatu address phone')
+            .select('cradID name payStatu statu checkStatu address phone hosName')
             .exec((err,result)=>{
                 if(err){
                     //throw new Error(`查询${id}的客户出错!`);

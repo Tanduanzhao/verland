@@ -10,16 +10,19 @@
                订单名称：<span class="payInfo-itemInfo">新生儿遗传代谢病检测</span>
            </li>
             <li class="payInfo-item">
-                手机号码：<span class="payInfo-itemInfo">13890000005</span>
+                手机号码：<span class="payInfo-itemInfo phone"></span>
             </li>
             <li class="payInfo-item">
-                母亲姓名：<span class="payInfo-itemInfo">刘小华</span>
+                母亲姓名：<span class="payInfo-itemInfo name"></span>
             </li>
             <li class="payInfo-item">
-                待产医院：<span class="payInfo-itemInfo">广州第一人民医院</span>
+                待产医院：<span class="payInfo-itemInfo hosName"></span>
             </li>
             <li class="payInfo-item">
-               收件地址：<span class="payInfo-itemInfo">广州市天河区珠江新城保利广场大厦大堂11号楼11号</span>
+               收件地址：<span class="payInfo-itemInfo address"></span>
+            </li>
+            <li class="payInfo-item">
+                收件地址：<span class="payInfo-itemInfo ssss"></span>
             </li>
         </ul>
         <button class="button" onClick="isWeixinOrAlipay()">确认支付</button>
@@ -35,7 +38,10 @@
             url:"/wxPayResult",
             data:{
                 payResult:payResult,
-                phone: location.search.slice(location.search.indexOf('=')+1)
+                phone:$('.phone').text(),
+                name:$('.name').text(),
+                hosName:$('.hosName').text(),
+                address:$('.address').text()
             },
             success: function(res){
                 if(res.status == 1){
@@ -86,7 +92,25 @@
             }
         }
     }
+    //获取支付信息
+    function getCustomerInfo(){
+        $.ajax({
+            type: "GET",
+            url:"/admin/customer/"+url2obj().id,
+            success: function(res){
+                if(res.status == 1){
+                    $('.phone').text(res.datas.phone);
+                    $('.name').text(res.datas.name);
+                    $('.hosName').text(res.datas.hosName);
+                    $('.address').text(res.datas.phone);
+                }
+            }
+        })
+    }
+
     updateTitle();
     getWxJssdk();
+    //获取支付信息
+    getCustomerInfo();
 </script>
 <% include  ./common/footer%>
