@@ -112,8 +112,11 @@
                        }else{
                            $('.input-group .icon-verify').removeClass('correct').addClass('close').show()
                        }
+                       opacity()
                    }
                })
+           }else{
+               $('.input-group .icon-verify').removeClass('correct').addClass('close').show()
            }
         }else{
             $('.input-group .icon-verify').attr('class','icon-verify').hide();
@@ -170,6 +173,7 @@
         }
     })
     $('.code').bind('input propertychange',verifyCode);
+    $('.phone').bind('input propertychange',verifyCode);
     $('.input-group .group-right .input').bind('input propertychange',opacity);
     //修改页面title名
     updateTitle();

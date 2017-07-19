@@ -34,6 +34,8 @@
 }
 /***************************obtainName 支付跳转**********************************/
 .inputInfo{
+  height: auto;
+  padding-bottom: pxToRem(60);
   .logo{
     width: pxToRem(244);
     height: pxToRem(58);
@@ -46,7 +48,7 @@
     margin: pxToRem(84) auto pxToRem(104);
   }
   .form{
-    width: pxToRem(570);
+    width: pxToRem(574);
     margin: 0 auto;
     font-size: pxToRem(30);
     .input-group{
@@ -57,7 +59,7 @@
       }
       .group-left{
         float: left;
-        width: pxToRem(120);
+        width: pxToRem(124);
         margin-top: pxToRem(19);
       }
       .group-right{
@@ -69,7 +71,7 @@
           margin-left: pxToRem(50);
           width: pxToRem(382);
           box-sizing: border-box;
-          //padding: 0 pxToRem(20);
+          padding: 0;
           font-size: pxToRem(30);
           //text-align: center;
           text-align: left;
@@ -152,7 +154,7 @@
     font-size: pxToRem(32);
     text-align: center;
     text-decoration: underline;
-    margin: pxToRem(60) auto;
+    margin: pxToRem(60) auto 0;
     color: #479EE9;
   }
 }
@@ -677,6 +679,22 @@
 .conclusion-button{
   margin-top: pxToRem(90);
 }
+.advantageList{
+  padding-top:0;
+  li{
+    margin-top: pxToRem(60);
+    .item-icon{
+      display: inline-block;
+      width: pxToRem(40);
+      height: pxToRem(40);
+      background: #ff8a7c;
+      text-align: center;
+      color: #fff;
+      border-radius: pxToRem(8);
+      margin-right: pxToRem(24);
+    }
+  }
+}
 /***************************全谱维生素**********************************/
 .noVitamin{
   padding-top: pxToRem(120);
@@ -725,6 +743,28 @@
     margin: pxToRem(76) auto pxToRem(60);
   }
 }
+//.example-table{
+//  margin-top: pxToRem(20);
+//  border-collapse: collapse;
+//  font-size: pxToRem(14);
+//  thead{
+//    background: #5b9bd5;
+//    color: #fff;
+//    text-align: center;
+//    th{
+//      font-weight: normal;
+//      padding: pxToRem(14);
+//      border: 1px solid #5b9bd5;
+//    }
+//  }
+//  tbody{
+//    background: #fff;
+//    td{
+//      padding: pxToRem(14);
+//      border: 1px solid #5b9bd5;
+//    }
+//  }
+//}
 .introInfo-button{
   display: block;
   margin: pxToRem(120) pxToRem(96) 0;

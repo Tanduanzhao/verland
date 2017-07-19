@@ -21,9 +21,6 @@
             <li class="payInfo-item">
                收件地址：<span class="payInfo-itemInfo address"></span>
             </li>
-            <li class="payInfo-item">
-                收件地址：<span class="payInfo-itemInfo ssss"></span>
-            </li>
         </ul>
         <button class="button" onClick="isWeixinOrAlipay()">确认支付</button>
     </div>
@@ -71,7 +68,7 @@
                                 var callBack = function(){};
                                 if (res.errMsg == "chooseWXPay:ok") {
                                     payResult=1;
-                                    callBack = function(){window.location.href= "/paySuccess";};
+                                    callBack = function(){ window.location.href= "/paySuccess"};
                                 }
                                 isPay(payResult,callBack);
                             },
