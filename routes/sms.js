@@ -121,7 +121,7 @@ module.exports = {
         .then(result=>{
             if(!!result){
                 let ms = (Date.parse(new Date())-Date.parse(new Date(result.time)))/1000/60;
-                if(ms<=1){
+                if(ms<=10){
                     res.json({
                         statu:1,
                         msg:'验证成功!'

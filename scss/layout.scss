@@ -1,0 +1,778 @@
+/*
+整体布局
+*/
+// pixels to rems
+@function pxToRem($px,$base:20) {
+  @return ($px / $base) * 1rem;
+}
+.mgt30{
+  margin-top: pxToRem(30);
+}
+.button{
+  display: block;
+  text-align: center;
+  width: pxToRem(560);
+  height: pxToRem(80);
+  line-height:pxToRem(80);
+  margin: 0 auto;
+  font-size: pxToRem(32);
+  color: #FFF;
+  background: #479EE9 ;
+  border-radius: pxToRem(16);
+  border: none;
+  outline: none;
+}
+.container{
+  max-width: pxToRem(750);
+  margin: 0 auto;
+  height: 100%;
+  text-align: justify;
+  &:before{
+    content: "";
+    display: table;
+  }
+}
+/***************************obtainName 支付跳转**********************************/
+.inputInfo{
+  height: auto;
+  padding-bottom: pxToRem(60);
+  .logo{
+    width: pxToRem(244);
+    height: pxToRem(58);
+    margin: pxToRem(52) 0 0 pxToRem(44);
+  }
+  .title{
+    font-size: pxToRem(56);
+    text-align: center;
+    color: #479EE9;
+    margin: pxToRem(84) auto pxToRem(104);
+  }
+  .form{
+    width: pxToRem(574);
+    margin: 0 auto;
+    font-size: pxToRem(30);
+    .input-group{
+      position: relative;
+      overflow: hidden;
+      +.input-group{
+        margin-top: pxToRem(36);
+      }
+      .group-left{
+        float: left;
+        width: pxToRem(124);
+        margin-top: pxToRem(19);
+      }
+      .group-right{
+        float: left;
+        width: pxToRem(450);
+        border-bottom: pxToRem(2) solid #CCC;
+        padding: pxToRem(12) 0;
+        .input{
+          margin-left: pxToRem(50);
+          width: pxToRem(382);
+          box-sizing: border-box;
+          padding: 0;
+          font-size: pxToRem(30);
+          //text-align: center;
+          text-align: left;
+          outline: none;
+        }
+        .over{
+          width: pxToRem(235);
+        }
+      }
+      .icon-must{
+        float: right;
+        font-size: pxToRem(28);
+        color: #479EE9;
+        cursor: pointer;
+        margin-top: pxToRem(8);
+      }
+      .wait{
+        margin-right: pxToRem(30);
+      }
+      .icon-verify{
+        display: none;
+        float: right;;
+        width: pxToRem(28);
+        height: pxToRem(28);
+        background: url(/images/icon-radio.png) center no-repeat;
+        background-size: 100% 100%;
+      }
+      .close{
+        background: url(/images/icon-close.png) center no-repeat;
+        background-size: 100% 100%;
+      }
+      +.input{
+        margin-top: pxToRem(80);
+      }
+      +.name{
+        margin-top: pxToRem(54);
+      }
+    }
+  }
+  .protocol-box{
+    margin-top: pxToRem(84);
+    text-align: center;
+    font-size: pxToRem(26);
+    .radio{
+      display: inline-block;
+      width: pxToRem(36);
+      height: pxToRem(36);
+      border: pxToRem(2) solid #333;
+      border-radius: 50%;
+      box-sizing: border-box;
+      vertical-align: middle;
+      margin-right: pxToRem(10);
+    }
+    .active{
+      border: none;
+      background: url(/images/icon-radio.png) center no-repeat;
+      background-size: 100% 100%;
+    }
+    .protocol-link{
+      text-decoration: underline;
+    }
+  }
+  .button{
+    display: block;
+    text-align: center;
+    width: pxToRem(560);
+    height: pxToRem(88);
+    line-height:pxToRem(88);
+    margin: pxToRem(56) auto 0;
+    font-size: pxToRem(32);
+    color: #FFF;
+    background: #479EE9 ;
+    border-radius: pxToRem(16);
+    border: none;
+    outline: none;
+    opacity: 0.5;
+  }
+  .jumpProcess{
+    display: block;
+    font-size: pxToRem(32);
+    text-align: center;
+    text-decoration: underline;
+    margin: pxToRem(60) auto 0;
+    color: #479EE9;
+  }
+}
+/***************************protocol 同意书**********************************/
+.protocol{
+  font-size: pxToRem(28);
+  line-height: 1.4;
+  padding:  pxToRem(60) pxToRem(40) pxToRem(112);
+  height: auto;
+  max-height: 10000px;
+  background: url(/images/bg_verland.png) bottom center no-repeat #e9eff3;
+  background-size: 100%;
+  .protocol-title{
+    text-align: center;
+    font-size: pxToRem(44);
+    color: #479EE9;
+    padding-bottom: pxToRem(20);
+  }
+  .protocol-item{
+    color: #479EE9;
+    margin-top: pxToRem(40);
+    p{
+      line-height: 1.4;
+      color: #333;
+      margin-top: pxToRem(20);
+      text-indent: pxToRem(36);
+    }
+  }
+  .button{
+    margin-top: pxToRem(100);
+  }
+}
+/***************************paySuccess 支付成功**********************************/
+.paySuccess{
+  width: pxToRem(238);
+  height: pxToRem(260);
+}
+.paySuccess-text{
+  font-size: pxToRem(40);
+  text-align: center;
+  margin-top: pxToRem(80);
+}
+
+/***************************query 进度查询**********************************/
+.imgBox{
+  width: pxToRem(222);
+  margin: pxToRem(100) auto 0;
+  .logoTitleImg{
+    width: 100%;
+  }
+}
+.queryId{
+  margin-top: pxToRem(160);
+  text-align: center;
+  .query-btn{
+    margin-top: pxToRem(80);
+  }
+  .input{
+    margin: 0 auto;
+    width: pxToRem(548);
+    height: pxToRem(84);
+    box-sizing: border-box;
+    padding: 0 pxToRem(20);
+    font-size: pxToRem(30);
+    text-align: center;
+    outline: none;
+    border-radius: pxToRem(16);
+    border: pxToRem(2) solid #CCC;
+  }
+}
+.progress{
+  display: none;
+  font-size: pxToRem(32);
+  margin-top: pxToRem(140);
+  margin-left: pxToRem(192);
+  .progressItem{
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    color: #666;
+    position: relative;
+    &:before{
+      content: "";
+      display: block;
+      width: pxToRem(36);
+      height: pxToRem(36);
+      margin: 0 pxToRem(36) 0 pxToRem(4);
+      background: #D8D8D8;
+      border-radius: 50% ;
+    }
+    +.progressItem{
+      display: none;
+      margin-top: pxToRem(104);
+      &:after{
+        content: "";
+        display: block;
+        width: pxToRem(2);
+        height: pxToRem(121);
+        background: #D8D8D8;
+        position: absolute;
+        top: pxToRem(-118);
+        left: pxToRem(22);
+        z-index: -1;
+      }
+    }
+  }
+  .active{
+    font-size: pxToRem(36);
+    color: #479EE9;
+    &:before{
+      width: pxToRem(44);
+      height: pxToRem(44);
+      margin: 0 pxToRem(32) 0 0;
+      background: #479EE9;
+    }
+  }
+}
+.centerAll-box{
+  margin-top: pxToRem(-300);
+}
+.noQuery{
+  width: pxToRem(310);
+  height: pxToRem(236);
+}
+.centerAll-text{
+  font-size: pxToRem(32);
+  color: #666;
+  text-align: center;
+  margin-top: pxToRem(100);
+}
+
+/***************************problem 常见问题**********************************/
+.bgc-eee{
+  background: #eee;
+}
+.list{
+  .item{
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    position: relative;
+    padding:  pxToRem(20) pxToRem(50) pxToRem(20) pxToRem(90);
+    font-size: pxToRem(30);
+    word-break: break-all;
+    text-align: justify;
+    line-height: pxToRem(44);
+    background: #fff;
+    +.item{
+      margin-top: pxToRem(20);
+    }
+  }
+  .icon-ask{
+    &:before{
+      content: "";
+      display: block;
+      width: pxToRem(48);
+      height: pxToRem(48);
+      position: absolute;
+      top: pxToRem(18);
+      left: pxToRem(24);
+      background: url(/images/icon-ask.png) center no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  .icon-answer{
+    &:before{
+      content: "";
+      display: block;
+      width: pxToRem(48);
+      height: pxToRem(48);
+      position: absolute;
+      top: pxToRem(18);
+      left: pxToRem(24);
+      background: url(/images/icon-answer.png) center no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  .icon-right{
+    &:after{
+      content: "";
+      display: block;
+      width: pxToRem(16);
+      height: pxToRem(28);
+      position: absolute;
+      top: 50%;
+      right: pxToRem(16);
+      margin-top: pxToRem(-14);
+      background: url(/images/icon-right.png) center no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+}
+
+/***************************introduce 企业介绍**********************************/
+.logoImgBox{
+  width: pxToRem(278);
+  margin: pxToRem(92) auto pxToRem(76);
+}
+.titleImg{
+  display: block;
+  width: pxToRem(408);
+  //height: pxToRem(44);
+  margin: pxToRem(80) auto;
+}
+.introduce-bg{
+  display: block;
+  width: 100%;
+}
+.introduce{
+  position: absolute;
+  top: pxToRem(550);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #6abaff;
+  &:before{
+    content: "";
+    display: table;
+  }
+  .info{
+    width: pxToRem(518);
+    margin: pxToRem(120) auto 0;
+    font-size: pxToRem(32);
+    line-height: pxToRem(60);
+    color: #fff;
+  }
+}
+.priceInfo{
+  width: pxToRem(526);
+  height: pxToRem(192);
+}
+.business{
+  margin: pxToRem(100) auto pxToRem(40);
+}
+.businessInfo{
+  .businessInfo-title{
+    margin-left: pxToRem(25);
+    font-weight: normal;
+    font-size: pxToRem(32);
+    color: #666;
+  }
+  .businessInfo-img{
+    width: pxToRem(654);
+    height: pxToRem(418);
+    margin-top: pxToRem(52);
+  }
+}
+.icon-down{
+  width: pxToRem(40);
+  position: absolute;
+  left: 50%;
+  margin-left: pxToRem(-20);
+  bottom: pxToRem(30);
+  opacity: 0.8;
+  -webkit-animation: icon-down-animation 1s ease-out infinite alternate;
+  -moz-animation: icon-down-animation 1s ease-out infinite alternate;
+  -o-animation: icon-down-animation 1s ease-out infinite alternate;
+  -ms-animation: icon-down-animation 1s ease-out infinite alternate;
+  /*这里使用了呼吸动画*/
+  animation: icon-down-animation 1s ease-out infinite alternate;
+}
+.strengths{
+  width: pxToRem(550);
+  margin: pxToRem(120) auto pxToRem(116);
+}
+.strengthsImg{
+  width: pxToRem(638);
+  height: pxToRem(670);
+}
+.team-titleImg{
+  display: block;
+  width: pxToRem(590);
+  height: pxToRem(56);
+  margin: pxToRem(74) auto pxToRem(86);
+}
+.team{
+  padding: 0 pxToRem(36);
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  .item{
+    width: pxToRem(300);
+    font-size: pxToRem(24);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: pxToRem(38);
+    .team-img{
+      width: pxToRem(212);
+      height: pxToRem(234);
+    }
+    .post{
+      text-align: center;
+      font-size: pxToRem(26);
+      color: #034683;
+      line-height: 1.3;
+      margin: pxToRem(6) 0 pxToRem(10);
+    }
+    .over{
+      position: absolute;
+    }
+  }
+}
+.total{
+  text-align: center;
+  margin-top: pxToRem(80);
+  .total-img{
+    width: pxToRem(620);
+  }
+  .total-button{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: pxToRem(560);
+    height: pxToRem(88);
+    line-height: pxToRem(88);
+    margin-top: pxToRem(60);
+    font-size: pxToRem(32);
+    color: #FFF;
+    background: #479EE9 ;
+    border-radius: pxToRem(16);
+    border: none;
+    outline: none;
+  }
+}
+/***************************process 检测流程**********************************/
+.process{
+  padding: pxToRem(52) pxToRem(24) pxToRem(162);
+  img{
+    width: pxToRem(690);
+    +img{
+      margin-top: pxToRem(44);
+    }
+  }
+}
+/***************************loading 加载**********************************/
+.loading{
+  width: pxToRem(50);
+  position: absolute;
+  top:50%;
+  left:50%;
+  margin-top: pxToRem(-25);
+  margin-left: pxToRem(-25);
+  z-index: 99999;
+}
+.srollLoading-box{
+  background: #eee;
+  padding: pxToRem(10) 0;
+  text-align: center;
+  .srollLoading{
+    width: pxToRem(50);
+  }
+}
+/***************************payInfo 支付信息**********************************/
+.payInfo{
+  .payInfo-money{
+    text-align: center;
+    font-size: pxToRem(72);
+    padding-bottom: pxToRem(66);
+    background: #fff;
+    .payInfo-moneyName{
+      padding:  pxToRem(66) 0 pxToRem(22);
+      font-size: pxToRem(28);
+    }
+  }
+  .payInfo-content{
+    font-size: pxToRem(32);
+    background: #fff;
+    margin-top: pxToRem(20);
+   .payInfo-item{
+     padding: pxToRem(32) pxToRem(24) pxToRem(30);
+     border-bottom: pxToRem(2) solid #eee;
+     line-height: 1.4;
+     .payInfo-itemInfo{
+       width: pxToRem(525);
+       display: inline-block;
+       vertical-align: top;
+     }
+   }
+  }
+  .button{
+    display: block;
+    width: pxToRem(560);
+    height: pxToRem(88);
+    margin: pxToRem(108) auto 0;
+    font-size: pxToRem(32);
+    color: #FFF;
+    background: #479EE9 ;
+    border-radius: pxToRem(16);
+    border: none;
+    outline: none;
+  }
+}
+/***************************新筛健康评估**********************************/
+.intro{
+  background: url(/images/bg_verland.png) top center no-repeat #e9eff3;
+  background-size: 100% 100%;
+  .introImg{
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    width: pxToRem(494);
+    height: pxToRem(494);
+    font-size: pxToRem(48);
+    text-align: center;
+    color: #034683;
+    letter-spacing: pxToRem(3.17);
+    line-height: pxToRem(58);
+    background: url(/images/verlandImg.png) top center no-repeat;
+    background-size: 100% 100%;
+    margin-top: pxToRem(-102);
+  }
+  .intro-title{
+    margin: pxToRem(40) pxToRem(46) 0 pxToRem(46);
+    padding: pxToRem(27) pxToRem(32);
+    display: inline-block;
+    font-size: pxToRem(36);
+    line-height: pxToRem(46);
+    color: #034683;
+    background: #98C4E9;
+    border-radius: pxToRem(10);
+    letter-spacing: pxToRem(2.38);
+  }
+}
+.introInfo{
+  font-size: pxToRem(28);
+  padding: pxToRem(60) pxToRem(40) 0;
+  line-height: 1.4;
+  text-align: justify;
+  .red{
+    color: #FA7564;
+  }
+  p{
+    text-indent: pxToRem(56);
+  }
+}
+.project{
+  padding-top: pxToRem(60);
+  .projectInfo{
+    margin-top: pxToRem(20);
+  }
+  .projectClassify{
+    display: flex;
+    display:  -webkit-flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    margin: pxToRem(40) 0 pxToRem(60);
+    li{
+      display: flex;
+      display:  -webkit-flex;
+      justify-content: center;
+      -webkit-justify-content: center;
+      align-items: center;
+      -webkit-align-items: center;
+      background: rgba(255,255,255,.8);
+      border-radius: 50%;
+      width: pxToRem(196);
+      height: pxToRem(196);
+      text-align: center;
+    }
+  }
+  .healthIntro{
+    .projectClassify{
+      justify-content: center;
+      -webkit-justify-content: center;
+    }
+  }
+}
+.detectionList{
+  .detectionItem{
+    margin: pxToRem(60) pxToRem(24) 0;
+    .detectionItem-title{
+      display: inline-block;
+      background: #FF8A7C;
+      font-size: pxToRem(24);
+      color: #FFFFFF;
+      padding: pxToRem(10) pxToRem(16);
+    }
+    .detectionItem-infoBox{
+      text-align: left;
+      padding: pxToRem(20) pxToRem(16);
+      background: rgba(255,255,255,.5);
+      .detectionItem-info{
+        display: inline-block;
+        vertical-align: top;
+        font-size: pxToRem(14);
+        line-height: pxToRem(24);
+        color: #666666;
+        .long{
+          position: absolute;
+        }
+      }
+      .mgl42{
+        margin-left: pxToRem(42);
+      }
+      .mgl52{
+        margin-left: pxToRem(52);
+      }
+      .mgl68{
+        margin-left: pxToRem(68);
+      }
+    }
+    .flex{
+      display: flex;
+      display: -webkit-flex;
+      justify-content: space-between;
+      -webkit-justify-content: space-between;
+    }
+  }
+}
+.conclusion{
+  width: 100%;
+}
+.conclusion-button{
+  margin-top: pxToRem(90);
+}
+.advantageList{
+  padding-top:0;
+  li{
+    margin-top: pxToRem(60);
+    .item-icon{
+      display: inline-block;
+      width: pxToRem(40);
+      height: pxToRem(40);
+      background: #ff8a7c;
+      text-align: center;
+      color: #fff;
+      border-radius: pxToRem(8);
+      margin-right: pxToRem(24);
+    }
+  }
+}
+/***************************全谱维生素**********************************/
+.noVitamin{
+  padding-top: pxToRem(120);
+}
+.adapt{
+  padding-top: pxToRem(40);
+  .adapt-img{
+    display: block;
+    width: pxToRem(658);
+    margin:  pxToRem(38) auto 0;
+  }
+}
+.goodDetection{
+  padding-top: 0;
+  .goodDetectionItem{
+    margin-top: pxToRem(100);
+  }
+  .goodDetection-title{
+    font-size: pxToRem(32);
+  }
+  .explain{
+    color: #034683;
+    padding: pxToRem(20);
+    margin-top: pxToRem(28);
+    line-height: pxToRem(48);
+    background: rgba(255,255,255,0.5);
+  }
+}
+.example{
+  margin-top: pxToRem(60);
+  .example-text{
+    display: inline-block;
+  }
+  .example-img{
+    margin-top: pxToRem(20);
+    width: 100%;
+  }
+  .meaning-img{
+    width: pxToRem(532);
+    display: block;
+    margin: pxToRem(68) auto pxToRem(60);
+  }
+  .screening-img{
+    width: pxToRem(670);
+    display: block;
+    margin: pxToRem(76) auto pxToRem(60);
+  }
+}
+//.example-table{
+//  margin-top: pxToRem(20);
+//  border-collapse: collapse;
+//  font-size: pxToRem(14);
+//  thead{
+//    background: #5b9bd5;
+//    color: #fff;
+//    text-align: center;
+//    th{
+//      font-weight: normal;
+//      padding: pxToRem(14);
+//      border: 1px solid #5b9bd5;
+//    }
+//  }
+//  tbody{
+//    background: #fff;
+//    td{
+//      padding: pxToRem(14);
+//      border: 1px solid #5b9bd5;
+//    }
+//  }
+//}
+.introInfo-button{
+  display: block;
+  margin: pxToRem(120) pxToRem(96) 0;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: pxToRem(80);
+  font-size: pxToRem(32);
+  background: #B2B2B2;
+  border-radius: pxToRem(16);
+  color: #fff;
+}

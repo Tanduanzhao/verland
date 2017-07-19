@@ -5,49 +5,109 @@
             <div class="payInfo-moneyName">订单金额</div>
             <div class="payInfo-moneyNum">￥1880</div>
         </div>
-        <div class="payInfo-name">
-            订单名称：新生儿遗传代谢病检测
-        </div>
-        <div  class="payInfo-content">
-            <table>
-                <thead>
-                <tr>
-                    <th> 检测项目</th>
-                    <th class="tac"> 数量（56）</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td> 氨基酸代谢障碍类遗传代谢病</td>
-                    <td class="tac">19</td>
-                </tr>
-                <tr>
-                    <td>有机酸血症类遗传代谢病</td>
-                    <td class="tac">15</td>
-                </tr>
-                <tr>
-                    <td> 脂肪酸氧化缺陷类遗传代谢病</td>
-                    <td class="tac">13</td>
-                </tr>
-                <tr>
-                    <td>溶酶体贮积症*</td>
-                    <td class="tac">9</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <ul class="payInfo-content">
+           <li class="payInfo-item">
+               订单名称：<span class="payInfo-itemInfo">新生儿遗传代谢病检测</span>
+           </li>
+            <li class="payInfo-item">
+                手机号码：<span class="payInfo-itemInfo phone"></span>
+            </li>
+            <li class="payInfo-item">
+                母亲姓名：<span class="payInfo-itemInfo name"></span>
+            </li>
+            <li class="payInfo-item">
+                待产医院：<span class="payInfo-itemInfo hosName"></span>
+            </li>
+            <li class="payInfo-item">
+               收件地址：<span class="payInfo-itemInfo address"></span>
+            </li>
+        </ul>
         <button class="button" onClick="isWeixinOrAlipay()">确认支付</button>
     </div>
 </div>
+<script src="/javascripts/index.js"></script>
 <script>
-    var ua = navigator.userAgent.toLowerCase();
-    if(ua.match(/MicroMessenger/i)=="micromessenger") {
-        $("title").text('微信支付');
-    } else if(ua.match(/AlipayClient/i)=="alipayclient"){
-        $("title").text('支付宝支付');
-    }else{
-        $("title").text('云量支付');
+    //支付方法
+    function isPay(payResult,callBack){
+        var callback = callBack || function(){};
+        $.ajax({
+            type: "POST",
+            url:"/wxPayResult",
+            data:{
+                payResult:payResult,
+                phone:$('.phone').text(),
+                name:$('.name').text(),
+                hosName:$('.hosName').text(),
+                address:$('.address').text()
+            },
+            success: function(res){
+                if(res.status == 1){
+                    callback();
+                }
+            }
+        })
     }
+    //确认支付
+    function isWeixinOrAlipay(){
+        var ua = navigator.userAgent.toLowerCase(),payResult= 0;
+        if(ua.match(/MicroMessenger/i)=="micromessenger") {
+            if(!location.search.slice(location.search.indexOf('=')+1)){window.location.href('/payInfo');return false;}
+            $.ajax({
+                type: "GET",
+                url:"/wxPay",
+                success: function(res){
+                    if(res.status == 1){
+                        wx.chooseWXPay({
+                            timestamp: res.datas.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                            nonceStr: res.datas.nonceStr, // 支付签名随机串，不长于 32 位
+                            package:  res.datas.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                            signType: res.datas.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                            paySign: res.datas.paySign ,// 支付签名
+                            success:  function(res){
+                                // 支付成功后的回调函数
+                                var callBack = function(){};
+                                if (res.errMsg == "chooseWXPay:ok") {
+                                    payResult=1;
+                                    callBack = function(){ window.location.href= "/paySuccess"};
+                                }
+                                isPay(payResult,callBack);
+                            },
+                            cancel :function(res){
+                                isPay(payResult);
+                            },
+                            fail:function(res){
+                                alert(JSON.stringify(res));
+                            }
+                        });
+                    }
+                }
+            })
+        }else{
+            console.log('支付宝浏览器');
+            if(location.search.slice(location.search.indexOf('=')+1)){
+                window.location.href= "HTTPS://QR.ALIPAY.COM/FKX08304RZEUIO0OWZJG93";
+            }
+        }
+    }
+    //获取支付信息
+    function getCustomerInfo(){
+        $.ajax({
+            type: "GET",
+            url:"/admin/customer/"+url2obj().id,
+            success: function(res){
+                if(res.status == 1){
+                    $('.phone').text(res.datas.phone);
+                    $('.name').text(res.datas.name);
+                    $('.hosName').text(res.datas.hosName);
+                    $('.address').text(res.datas.phone);
+                }
+            }
+        })
+    }
+
+    updateTitle();
+    getWxJssdk();
+    //获取支付信息
+    getCustomerInfo();
 </script>
-<script src="/javascripts/pay.js"></script>
 <% include  ./common/footer%>

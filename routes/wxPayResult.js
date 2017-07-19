@@ -9,7 +9,7 @@
 const smsFn = require('../modules/sms');
 
 
-function updateCustomerByOpenId(phone,obj,openId){
+function updateCustomerByPhone(phone,obj,openId){
   return new Promise((resolve,reject)=>{
     // customer
     //  .update({openId:openId},{$set:obj},(err,result)=>{
