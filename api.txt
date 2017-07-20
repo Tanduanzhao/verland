@@ -61,3 +61,9 @@
         phone:required,
         code:required
     }
+8.获取用户个人信息
+    url:http://192.168.1.194:3001/admin/customer/:id
+    method:GET,
+    params:{
+        id:required
+    }

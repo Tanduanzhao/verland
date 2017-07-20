@@ -108,6 +108,7 @@ module.exports = {
                     throw new Error('添加用户出错!');
                 }else{
                     res.locals.status = 1;
+                    res.locals.datas = result;
                 }
                 next();
             }).catch((err)=>{
