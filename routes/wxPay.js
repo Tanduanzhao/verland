@@ -30,7 +30,7 @@ function getPayOrder(req){
         formDate += `<${key}>${payObj[key]}</${key}>`;
     }
     formDate += '</xml>';
-    // console.log(formDate);
+     //console.log(formDate);
     return new Promise((resolve,reject)=>{
         request({
             url:url,
@@ -40,7 +40,7 @@ function getPayOrder(req){
             if(err){
                 console.log(err);
             }else{
-                console.log(body);
+                //console.log(body,"sssss");
                 xml2js.parseString(body,{explicitArray : false},(err,json)=>{
                     payObj.prepay_id = 'prepay_id='+json.xml.prepay_id;
                 });

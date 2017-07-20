@@ -79,6 +79,8 @@
                                 alert(JSON.stringify(res));
                             }
                         });
+                    }else{
+                       alert(res.message)
                     }
                 }
             })
@@ -99,12 +101,11 @@
                     $('.phone').text(res.datas.phone);
                     $('.name').text(res.datas.name);
                     $('.hosName').text(res.datas.hosName);
-                    $('.address').text(res.datas.phone);
+                    $('.address').text(res.datas.address);
                 }
             }
         })
     }
-
     updateTitle();
     getWxJssdk();
     //获取支付信息

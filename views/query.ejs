@@ -4,7 +4,7 @@
         <img src="/images/query.png" class="logoTitleImg">
     </div>
     <div class="queryId">
-        <input id="number" class="input" type="text" placeholder="请输入查询编号">
+        <input id="number" class="input" type="text" placeholder="请输入手机号码">
         <button onClick="query()" class="button query-btn">查询进度</button>
     </div>
     <img src="/images/loading.gif" class="loading none">
@@ -28,7 +28,7 @@
 </div>
 <script>
    function opacity(){
-       if($('.form #number').val() !=""){
+       if($('.queryId #number').val() !=""){
            $(".query-btn").css({
                opacity: 1
            })
@@ -39,10 +39,10 @@
        }
    }
    opacity();
-    $('.form #number').bind('input propertychange',opacity);
+    $('.queryId #number').bind('input propertychange',opacity);
     function query(){
         if($("#number").val() != "" ){
-            $(".form").hide(0);
+            $(".queryId").hide(0);
             $(".loading").show(0);
             $(".imgBox").hide()
             $.ajax({
@@ -51,7 +51,7 @@
                 success: function (res) {
                     $(".loading").hide(0);
                     if(res.status == 1){
-                        if(res.datas){
+                        if(!!res.datas){
                             $(".progress").show(0);
                             $(".imgBox").show()
                             $(".progress .progressItem").removeClass("active");
