@@ -8,28 +8,30 @@ function addCustomerByPhone(phone,req){
                 if(err){
                     throw new Error('查询用户错误!');
                 }else{
-                    if(!result){
-                        let userInfo = {
-                            phone:phone,
-                            hosName:req.body.hosName,
-                            address:req.body.address,
-                            name:req.body.name
-                        };
-                        if(req.session.userInfo){
-                            for(let key in req.session.userInfo){
-                                userInfo[key] = req.session.userInfo[key]
-                            }
+                    let userInfo = {
+                        hosName:req.body.hosName,
+                        address:req.body.address,
+                        name:req.body.name
+                    };
+                    if(req.session.userInfo){
+                        for(let key in req.session.userInfo){
+                            userInfo[key] = req.session.userInfo[key]
                         }
-                        return saveUserInfo(userInfo)
+                    }
+                    if(!result){
+                        userInfo.phone = phone;
+                        return saveUserInfo(userInfo).then((_res)=>{
+                            return _res;
+                        })
                     }else{
                         if(!result.openId){
                             return new Promise((resolve,reject)=>{
                                 customer
-                                  .update({phone:phone},{$set:req.session.userInfo},(err,result)=>{
+                                  .update({phone:phone},{$set:userInfo},(err,_result)=>{
                                     if(err){
                                       throw new Error(err);
                                     }else{
-                                      resolve();
+                                      resolve(result);
                                     }
                                   })
                             })
