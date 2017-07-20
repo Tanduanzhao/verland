@@ -5,6 +5,8 @@
 @function pxToRem($px,$base:20) {
   @return ($px / $base) * 1rem;
 }
+html{-webkit-user-select: none;}
+html{-webkit-tap-highlight-color:transparent;}
 .mgt30{
   margin-top: pxToRem(30);
 }

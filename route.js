@@ -93,7 +93,7 @@ module.exports = function(app) {
         .get('/wxPay',wxPay)
         .post('/wxPayResult',wxPayResult)
         //根据客户编号来查询用户进度
-        .get('/query/:id',query)
+        .get('/query/:phone',query)
         //前台新增用户
         .post('/addCustomer',addWxCustomer)
         //登录

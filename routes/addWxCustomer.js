@@ -1,7 +1,8 @@
 const customer = require('../model/customer.js');
 
 function addCustomerByPhone(phone,req){
-    return customer
+    return new Promise((resolve,reject)=>{
+            customer
             .findOne()
             .where({$or:[{phone:phone}]})
             .exec((err,result)=>{
@@ -21,10 +22,10 @@ function addCustomerByPhone(phone,req){
                     if(!result){
                         userInfo.phone = phone;
                         return saveUserInfo(userInfo).then((_res)=>{
-                            return _res;
-                        })
+                                  resolve(_res);
+                                })
                     }else{
-                        if(!result.openId){
+                        if(result.phone){
                             return new Promise((resolve,reject)=>{
                                 customer
                                   .update({phone:phone},{$set:userInfo},(err,_result)=>{
@@ -34,24 +35,27 @@ function addCustomerByPhone(phone,req){
                                       resolve(result);
                                     }
                                   })
+                            }).then((_res)=>{
+                              resolve(_res);
                             })
                         }
 
                     }
                 }
             })
+    })
 }
 
 function saveUserInfo(user){
     return new Promise((resolve,reject)=>{
-        new customer(user)
-          .save((err,result)=>{
-              if(err){
-                  reject(err);
-              }else{
-                  resolve(result);
-              }
-          })
+      new customer(user)
+        .save((err,result)=>{
+          if(err){
+            reject(err);
+          }else{
+            resolve(result);
+          }
+        })
     })
 }
 module.exports = (req,res,next)=>{
