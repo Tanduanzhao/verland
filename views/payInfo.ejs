@@ -6,13 +6,13 @@
         <div class="input-group">
             <span class="group-left">手机号码</span>
             <div class="group-right">
-                <input class="input phone over" type="text" placeholder="请输入手机号码"><span class="icon-must">发送验证码</span>
+                <input class="input phone over" type="text" placeholder="请输入手机号码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')" ><span class="icon-must">发送验证码</span>
             </div>
         </div>
         <div class="input-group">
             <span class="group-left"></span>
             <div class="group-right">
-                  <input class="input code over" type="text" placeholder="请输入验证码"><span class="icon-verify"></span>
+                  <input class="input code over" type="text" placeholder="请输入验证码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"><span class="icon-verify"></span>
             </div>
         </div>
         <div class="input-group">
@@ -123,14 +123,14 @@
         }
     }
     //重新发送验证
-    function time() {
+    function waitTime() {
         if (wait == 0) {
             $('.icon-must').text("发送验证码");
             wait = 60;
         } else {
             $('.icon-must').text("重新发送(" + wait + ")");
             wait--;
-            setTimeout(function(){time()},1000)
+            setTimeout(function(){waitTime()},1000)
         }
     }
     //判断是否是手机号
@@ -159,14 +159,15 @@
         }
     })
     $('.icon-must').click(function(){
-        if(vailPhone()){
+        if(vailPhone() && wait==60){
             $.ajax({
                 type: "GET",
                 url:"/getCode?phone="+$('.phone').val(),
                 success: function(res){
-                    if(res.status == 1){
-                        loadJssdk(res);
-                        time();
+                    console.log(res)
+                    if(res.statu == 1){
+                        alert('验证码已发送到您的手机，请勿泄露。');
+                        waitTime();
                     }
                 }
             })
