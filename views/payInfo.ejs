@@ -6,13 +6,13 @@
         <div class="input-group">
             <span class="group-left">手机号码</span>
             <div class="group-right">
-                <input class="input phone over" type="text" placeholder="请输入手机号码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')" ><span class="icon-must">发送验证码</span>
+                <input class="input phone over" type="text" placeholder="请输入手机号码"><span class="icon-must">发送验证码</span>
             </div>
         </div>
         <div class="input-group">
             <span class="group-left"></span>
             <div class="group-right">
-                  <input class="input code over" type="text" placeholder="请输入验证码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"><span class="icon-verify"></span>
+                  <input class="input code over" type="text" placeholder="请输入验证码"><span class="icon-verify"></span>
             </div>
         </div>
         <div class="input-group">
@@ -101,11 +101,21 @@
     }
     //验证验证码
     function verifyCode(){
+        var reg = /[^0-9]/g;
+        if(reg.test($('.phone').val())){
+            $('.phone').val($('.phone').val().replace(/[^0-9]/g,''))
+            return;
+        }
+        if(reg.test($('.code').val())){
+            $('.code').val($('.code').val().replace(/[^0-9]/g,''));
+            return;
+        }
         if(!!$('.code').val()){
            if($('.code').val().length == 4){
                $.ajax({
                    url:'/checkCode?phone='+$('.phone').val()+'&code='+$('.code').val(),
                    method:'GET',
+                   async: false,
                    success:function(result){
                        if(result.statu === 1){
                            $('.input-group .icon-verify').removeClass('close').addClass('correct').show();
@@ -183,7 +193,7 @@
     //判断浏览器
     isWx();
     //微信初始化
-    getWxJssdk();
+   // getWxJssdk();
     //判断按钮是否可以提交
     opacity();
 </script>
