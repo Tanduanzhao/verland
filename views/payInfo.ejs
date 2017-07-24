@@ -111,7 +111,7 @@
             return;
         }
         if(!!$('.code').val()){
-           if($('.code').val().length == 4){
+           if($('.code').val().length === 4 && $('.phone').val().length === 11){
                $.ajax({
                    url:'/checkCode?phone='+$('.phone').val()+'&code='+$('.code').val(),
                    method:'GET',
@@ -148,7 +148,7 @@
         var phone = jQuery(".phone").val();
         var flag = false;
         var message = "";
-        var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var myreg = /\d{11}/;
         if(phone == ''){
            alert("手机号码不能为空！");
         }else if(phone.length !=11){
