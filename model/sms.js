@@ -4,7 +4,7 @@ const schema = new mongoose.Schema({
     phone:String,
     time:{
         type:Date,
-        default:Date()
+        default:Date.now()
     },
     statu:{
         type:Boolean,

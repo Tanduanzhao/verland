@@ -92,7 +92,7 @@ module.exports = (req,res,next)=>{
         .then(()=>{
             return smsFn.send({
                 ParamString:JSON.stringify({'user':req.body.phone}),
-                RecNum:'15013306010',
+                RecNum:'18805712071',
                 SignName:encodeURIComponent('云量检测'),
                 TemplateCode:'SMS_77335074'
             })
